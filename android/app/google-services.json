@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "834919855780",
+    "project_id": "horizonproject-f1394",
+    "storage_bucket": "horizonproject-f1394.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834919855780:android:98c233622eb2d1d2355831",
+        "android_client_info": {
+          "package_name": "com.example.flutterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834919855780-jcbcbqbms25f76580vidif7shj8vh3a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATlrctafZDoUspXP-FgzCkRUqbnI3tlRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834919855780-jcbcbqbms25f76580vidif7shj8vh3a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834919855780:android:223804e65c11f5fd355831",
+        "android_client_info": {
+          "package_name": "com.example.horizon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834919855780-jcbcbqbms25f76580vidif7shj8vh3a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATlrctafZDoUspXP-FgzCkRUqbnI3tlRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834919855780-jcbcbqbms25f76580vidif7shj8vh3a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
