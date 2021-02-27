@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/shared/constants.dart';
+import 'package:horizon/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -15,6 +16,7 @@ class _SignInState extends State<SignIn> {
 
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   //Text field initialization
   String email = '';
@@ -23,8 +25,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -72,13 +73,20 @@ class _SignInState extends State<SignIn> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  if (_formKey.currentState.validate()){
-                    dynamic result = await _authService.signInWithEmailAndPassword(email, password);
-                    if(result == null){
-                      setState(() => error = 'Login Failed');
+                  if (_formKey.currentState.validate()) {
+                    setState(() {
+                      loading = true;
+                    });
+                    dynamic result = await _authService
+                        .signInWithEmailAndPassword(email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = 'Login Failed';
+                        loading = false;
+                      });
                     }
                   }
-                },
+                }
               ),
               SizedBox(height:12.0),
               Text(
