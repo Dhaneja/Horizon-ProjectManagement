@@ -40,6 +40,36 @@ class AuthService{
   }
 
   //Sign in with Email & Password
+  Future signInWithEmailAndPassword(String email, String password) async{
+    try{
+      UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      User user = credential.user;
+      return _userfromFirebaseUser(user);
+
+    }catch(error){
+      print(error.toString());
+      return null;
+    }
+  }
+
+
+
+  //Register with Email & Password
+  Future registerWithEmailAndPassword(String email, String password) async{
+    try{
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      User user = credential.user;
+      return _userfromFirebaseUser(user);
+
+    }catch(error){
+      print(error.toString());
+      return null;
+    }
+  }
+
+
+
+
 
   //Sign Out
   Future signOut() async{
