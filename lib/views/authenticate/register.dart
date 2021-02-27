@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
+import 'package:horizon/shared/constants.dart';
 
 class Register extends StatefulWidget {
 
@@ -47,6 +48,7 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               SizedBox(height: 20.0,),
               TextFormField(
+                decoration: textInputStyle.copyWith(hintText: 'Email Address'),
                 validator: (emailValue) => emailValue.isEmpty ? 'Email cannot be empty' : null,
                 onChanged: (emailValue){
                   setState(() => email = emailValue);
@@ -55,6 +57,7 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: textInputStyle.copyWith(hintText: 'Password'),
                 obscureText: true,
                 validator: (emailValue) => emailValue.length < 6 ? 'Weak Password, Please enter a strong password' : null,
                 onChanged: (passwordValue){
