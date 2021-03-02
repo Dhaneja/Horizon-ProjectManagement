@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:horizon/model/employee.dart';
+import 'package:horizon/services/database.dart';
 
 class AuthService{
 
@@ -59,6 +60,10 @@ class AuthService{
     try{
       UserCredential credential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = credential.user;
+
+      //create a new document for the user with eid
+      await DatabaseService(eid: user.uid).updateUserData('dhaneja', 'dhaneja17@gmail.com', '123456', 'Project Manager');
+
       return _userfromFirebaseUser(user);
 
     }catch(error){
