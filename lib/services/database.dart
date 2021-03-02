@@ -6,11 +6,11 @@ class DatabaseService {
   DatabaseService({this.eid});
 
   //Collection Reference
-  final CollectionReference projectCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
 
   Future updateUserData(String employeeName, String employeeEmail, String employeePassword, String employeeType) async {
 
-    return await projectCollection.doc(eid).set({
+    return await userCollection.doc(eid).set({
       'employeeName' : employeeName,
       'eployeeEmail' : employeeEmail,
       'employeePassword' : employeePassword,
@@ -18,5 +18,7 @@ class DatabaseService {
     });
 
   }
+
+
 
 }
