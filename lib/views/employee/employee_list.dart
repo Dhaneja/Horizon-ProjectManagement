@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:horizon/model/employee.dart';
+import 'package:horizon/views/employee/employee_tile.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeList extends StatefulWidget {
@@ -10,14 +12,13 @@ class EmployeeList extends StatefulWidget {
 class _EmployeeListState extends State<EmployeeList> {
   @override
   Widget build(BuildContext context) {
+      final horizonUsers = Provider.of<List<Employee>>(context);
 
-    final horizonUsers = Provider.of<QuerySnapshot>(context);
-    //print(horizonUsers);
-
-    for (var doc in horizonUsers.docs){
-      print(doc.data);
+      return ListView.builder(
+        itemBuilder: (context, index) {
+          return EmployeeTile(employee: horizonUsers[index]);
+        },
+        itemCount: horizonUsers.length,);
     }
-
-    return Container();
   }
-}
+

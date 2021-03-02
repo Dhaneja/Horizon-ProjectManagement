@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:horizon/model/project.dart';
+import 'package:horizon/model/employee.dart';
 
 class DatabaseService {
 
@@ -20,10 +20,24 @@ class DatabaseService {
 
   }
 
+  //employee list from snapshot
+  List<Employee> _employeeListFromSnapshot(QuerySnapshot snapshot){
+    return snapshot.docs.map((doc){
+      return Employee(
+        eid: doc.data()['employeeId'] ?? '',
+        eEmail: doc.data()['employeeEmail'] ?? '',
+        eName: doc.data()['employeeName'] ?? '',
+        ePassword: doc.data()['employeePassword'] ?? '',
+        eType: doc.data()['employeeType'] ?? ''
+      );
+    }).toList();
+  }
+
 
   //get user stream
-  Stream<QuerySnapshot> get horizonUsers {
-    return userCollection.snapshots();
+  Stream<List<Employee>> get horizonUsers {
+    return userCollection.snapshots()
+        .map(_employeeListFromSnapshot);
   }
 
 }

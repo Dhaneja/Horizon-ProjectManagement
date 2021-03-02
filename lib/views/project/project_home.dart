@@ -31,7 +31,7 @@ class ProjectHome extends StatelessWidget {
        ]
       ),
         body: ProjectList(),
-    )
+    ),
    );
   }
 }

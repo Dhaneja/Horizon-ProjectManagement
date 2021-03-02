@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:provider/provider.dart';
 import '../employee/employee_list.dart';
 
-class Home extends StatelessWidget {
+class AdminHome extends StatelessWidget {
 
   final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot>.value(
+    return StreamProvider<List<Employee>>.value(
       value: DatabaseService().horizonUsers,
       child: Scaffold(
         backgroundColor: Colors.brown[50],
@@ -25,7 +26,6 @@ class Home extends StatelessWidget {
               label: Text('logout'),
               onPressed: () async {
                 await _authService.signOut();
-
               },
             )
           ],

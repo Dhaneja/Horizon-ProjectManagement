@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
+import 'package:horizon/views/home/admin_home.dart';
 import 'package:horizon/views/project/project_home.dart';
 import '../project/project_add.dart';
 
@@ -42,7 +43,7 @@ class Home extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ProjectHome())
+                          MaterialPageRoute(builder: (context) => AdminHome())
                       );
                     }
                 ),
