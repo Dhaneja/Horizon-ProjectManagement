@@ -20,20 +20,6 @@ class DatabaseService {
 
   }
 
-  //project list from snapshot
-  List<Project> _projectlistFromSnapshot(QuerySnapshot snapshot){
-    return snapshot.docs.map((doc){
-      return Project(
-        projectName: doc.data()['projectName'] ?? '',
-        startDate: doc.data()['startDate'] ?? '',
-        endDate: doc.data()['endDate'] ?? '',
-        projectCost: doc.data()['projectCost'] ?? '',
-        projectManager: doc.data()['projectManager'] ?? '',
-        projectClient: doc.data()['projectClient'] ?? '',
-        projectStatus: doc.data()['projectStatus'] ?? ''
-      );
-    });
-  }
 
   //get user stream
   Stream<QuerySnapshot> get horizonUsers {

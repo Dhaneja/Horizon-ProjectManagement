@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:provider/provider.dart';
-import 'employee_list.dart';
+import '../employee/employee_list.dart';
 
 class Home extends StatelessWidget {
 
