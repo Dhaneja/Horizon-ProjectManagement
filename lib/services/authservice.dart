@@ -1,6 +1,12 @@
+import 'dart:js';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/database.dart';
+import 'package:horizon/views/home/admin_home.dart';
+import 'package:horizon/views/project/project_home.dart';
 
 class AuthService{
 
@@ -44,6 +50,7 @@ class AuthService{
   Future signInWithEmailAndPassword(String email, String password) async{
     try{
       UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+
       User user = credential.user;
       return _userfromFirebaseUser(user);
 

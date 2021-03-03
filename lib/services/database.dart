@@ -40,4 +40,9 @@ class DatabaseService {
         .map(_employeeListFromSnapshot);
   }
 
+  //get user doc stream
+  Stream<DocumentSnapshot> get employeeData{
+    return userCollection.doc(eid).snapshots();
+  }
+
 }

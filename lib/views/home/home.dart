@@ -43,7 +43,7 @@ class Home extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AdminHome())
+                          MaterialPageRoute(builder: (context) => ProjectAdd())
                       );
                     }
                 ),

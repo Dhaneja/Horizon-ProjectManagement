@@ -4,11 +4,11 @@ import 'package:horizon/services/database_project.dart';
 
 class ProjectService{
 
-  Future createProject(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus) async {
+  Future createProject(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
 
     try{
 
-      await ProjectDatabaseService().updateProjectData(projectName, startDate, endDate, projectCost, projectManager, projectClient, projectStatus);
+      await ProjectDatabaseService().updateProjectData(projectName, startDate, endDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
 
           return null;
 

@@ -1,12 +1,17 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:horizon/model/employee.dart';
 import 'package:horizon/model/project.dart';
+import 'package:horizon/services/authservice.dart';
 
 class ProjectDatabaseService{
 
   final CollectionReference projectCollection = FirebaseFirestore.instance.collection('projects');
 
-  Future updateProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus) async {
+
+  Future updateProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
+
 
     return await projectCollection.doc().set({
       'projectName' : projectName,
@@ -16,6 +21,7 @@ class ProjectDatabaseService{
       'projectManager' : projectManager,
       'projectClient' : projectClient,
       'projectStatus' : projectStatus,
+      'employeeId' : employeeId,
     });
 
   }

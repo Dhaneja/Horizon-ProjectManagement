@@ -30,8 +30,8 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
-        title: Text('Sign in to Horizon PM Software'),
-        actions: <Widget>[
+        title: Text('Welcome to Horizon pvt ltd'),
+/*        actions: <Widget>[
           FlatButton.icon(
               icon: Icon(Icons.person),
               label: Text('Register'),
@@ -39,7 +39,7 @@ class _SignInState extends State<SignIn> {
               widget.toggleView();
             },
           )
-        ],
+        ],*/
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 50.0),

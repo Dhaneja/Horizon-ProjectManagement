@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/project_service.dart';
@@ -31,8 +33,10 @@ class _ProjectAddState extends State<ProjectAdd> {
   String projectManager = '';
   String projectClient = '';
   String projectStatus = '';
+  String employeeId = FirebaseAuth.instance.currentUser.uid;
 
   String error = '';
+
 
 
   @override
@@ -136,7 +140,7 @@ class _ProjectAddState extends State<ProjectAdd> {
                       setState(() {
                         loading = true;
                       });
-                      dynamic result = await _projectService.createProject(projectName, startDate, endDate, projectCost, projectManager, projectClient, projectStatus);
+                      dynamic result = await _projectService.createProject(projectName, startDate, endDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
                       if (result == null){
                         setState(() {
                           error = 'Please enter all details';
