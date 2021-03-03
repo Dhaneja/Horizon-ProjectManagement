@@ -24,7 +24,7 @@ class DatabaseService {
   List<Employee> _employeeListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return Employee(
-        eid: doc.data()['employeeId'] ?? '',
+        eid: eid,
         eEmail: doc.data()['employeeEmail'] ?? '',
         eName: doc.data()['employeeName'] ?? '',
         ePassword: doc.data()['employeePassword'] ?? '',

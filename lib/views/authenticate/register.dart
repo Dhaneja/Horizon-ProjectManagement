@@ -19,8 +19,10 @@ class _RegisterState extends State<Register> {
   bool loading = false;
 
   //Text field initialization
+  String name = '';
   String email = '';
   String password = '';
+  String type = '';
   String error = '';
 
   @override
@@ -45,8 +47,19 @@ class _RegisterState extends State<Register> {
         padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 50.0),
         child: Form(
           key: _formKey,
+          child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              SizedBox(height: 20.0,),
+              TextFormField(
+                decoration: textInputStyle.copyWith(hintText: 'Employee Name'),
+                validator: (nameValue) => nameValue.isEmpty ? 'Name cannot be empty' : null,
+                onChanged: (nameValue){
+                  setState(() => name = nameValue);
+
+                },
+              ),
+
               SizedBox(height: 20.0,),
               TextFormField(
                 decoration: textInputStyle.copyWith(hintText: 'Email Address'),
@@ -60,9 +73,18 @@ class _RegisterState extends State<Register> {
               TextFormField(
                 decoration: textInputStyle.copyWith(hintText: 'Password'),
                 obscureText: true,
-                validator: (emailValue) => emailValue.length < 6 ? 'Weak Password, Please enter a strong password' : null,
+                validator: (passwordValue) => passwordValue.length < 6 ? 'Weak Password, Please enter a strong password' : null,
                 onChanged: (passwordValue){
                   setState(() => password = passwordValue);
+                },
+              ),
+              SizedBox(height: 20.0,),
+              TextFormField(
+                decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
+                validator: (typeValue) => typeValue.isEmpty ? 'Employee Type cannot be empty' : null,
+                onChanged: (typeValue){
+                  setState(() => type = typeValue);
+
                 },
               ),
               SizedBox(height: 20.0,),
@@ -77,7 +99,7 @@ class _RegisterState extends State<Register> {
                     setState(() {
                       loading = true;
                     });
-                    dynamic result = await _authService.registerWithEmailAndPassword(email, password);
+                    dynamic result = await _authService.registerWithEmailAndPassword(email, password, name, type);
                     if(result == null){
                       setState(() {
                         error = 'Please enter a valid email';
@@ -94,6 +116,7 @@ class _RegisterState extends State<Register> {
               ),
             ],
           ),
+         ),
         ),
 
         /*child: RaisedButton(
