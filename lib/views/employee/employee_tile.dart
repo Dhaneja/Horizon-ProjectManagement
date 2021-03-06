@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/views/home/employee_form.dart';
+import 'package:horizon/views/home/employee_setting_form.dart';
 
 class EmployeeTile extends StatelessWidget {
+
+
 
   final Employee employee;
   EmployeeTile({this.employee});
 
     @override
     Widget build(BuildContext context) {
+      String empValue;
+
 
       void _showEmployeePanel() {
         showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
           return Container(
-            height: MediaQuery.of(context).size.height * 0.75,
+            height: MediaQuery.of(context).size.height * 0.85 ,
             decoration: new BoxDecoration(
               color: Colors.brown[100],
               borderRadius: new BorderRadius.only(
@@ -22,7 +26,7 @@ class EmployeeTile extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-            child: EmployeeForm(),
+            child: EmployeeForm(empValue: empValue),
           );
         });
       }
@@ -39,6 +43,16 @@ class EmployeeTile extends StatelessWidget {
             title: Text(employee.eName),
             subtitle: Text(employee.eType),
             onTap: () {
+              empValue = employee.eid.toString();
+/*              print(empValue);
+              print(employee.eid);
+              print(employee.eName);
+              print(employee.eType);*/
+/*              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EmployeeForm(empValue: empValue),
+                ),
+              );*/
               _showEmployeePanel();
             },
           ),

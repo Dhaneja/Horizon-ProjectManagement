@@ -25,6 +25,8 @@ class _RegisterState extends State<Register> {
   String type = '';
   String error = '';
 
+  final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
+
   @override
   Widget build(BuildContext context) {
       return loading ? Loading() : Scaffold(
@@ -79,14 +81,27 @@ class _RegisterState extends State<Register> {
                 },
               ),
               SizedBox(height: 20.0,),
-              TextFormField(
+/*              TextFormField(
                 decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
                 validator: (typeValue) => typeValue.isEmpty ? 'Employee Type cannot be empty' : null,
                 onChanged: (typeValue){
                   setState(() => type = typeValue);
 
                 },
+              ),*/
+
+              DropdownButtonFormField(
+                decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
+                validator: (typeValue) => typeValue.isEmpty ? 'Employee Type cannot be empty' : null,
+                items: employeeTypes.map((employeeType) {
+                  return DropdownMenuItem(
+                    value: employeeType,
+                    child: Text('$employeeType'),
+                  );
+                }).toList(),
+                onChanged: (typeValue) => setState(() => type = typeValue),
               ),
+
               SizedBox(height: 20.0,),
               RaisedButton(
                 color: Colors.orangeAccent[400],

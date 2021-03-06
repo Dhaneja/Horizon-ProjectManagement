@@ -5,6 +5,9 @@ import 'package:horizon/views/employee/employee_tile.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeList extends StatefulWidget {
+
+
+
   @override
   _EmployeeListState createState() => _EmployeeListState();
 }
@@ -12,13 +15,15 @@ class EmployeeList extends StatefulWidget {
 class _EmployeeListState extends State<EmployeeList> {
   @override
   Widget build(BuildContext context) {
-      final horizonUsers = Provider.of<List<Employee>>(context);
+
+      final horizonUsers = Provider.of<List<Employee>>(context) ?? [];
 
       return ListView.builder(
         itemBuilder: (context, index) {
           return EmployeeTile(employee: horizonUsers[index]);
         },
-        itemCount: horizonUsers.length,);
+        itemCount: horizonUsers.length,
+      );
     }
   }
 

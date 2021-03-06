@@ -67,7 +67,7 @@ class AuthService{
       User user = credential.user;
 
       //create a new document for the user with eid
-      await DatabaseService(eid: user.uid).updateUserData(name, email, password, type);
+      await DatabaseService(eid: user.uid).updateUserData(user.uid, name, email, password, type);
 
       return _userfromFirebaseUser(user);
 
@@ -76,6 +76,19 @@ class AuthService{
       return null;
     }
   }
+
+
+  //Password reset email
+  Future passwordReset(String email) async{
+    try {
+      _auth.sendPasswordResetEmail(email: email);
+    }catch(error){
+      print(error);
+    }
+  }
+
+
+  //Delete User with Auth
 
 
 

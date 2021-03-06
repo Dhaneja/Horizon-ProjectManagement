@@ -9,11 +9,12 @@ class DatabaseService {
   //Collection Reference
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
 
-  Future updateUserData(String employeeName, String employeeEmail, String employeePassword, String employeeType) async {
+  Future updateUserData(String employeeId,String employeeName, String employeeEmail, String employeePassword, String employeeType) async {
 
     return await userCollection.doc(eid).set({
+      'employeeId' : employeeId,
       'employeeName' : employeeName,
-      'eployeeEmail' : employeeEmail,
+      'employeeEmail' : employeeEmail,
       'employeePassword' : employeePassword,
       'employeeType' : employeeType,
     });
@@ -24,13 +25,24 @@ class DatabaseService {
   List<Employee> _employeeListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return Employee(
-        eid: eid,
+        eid: doc.data()['employeeId'] ?? '',
         eEmail: doc.data()['employeeEmail'] ?? '',
         eName: doc.data()['employeeName'] ?? '',
         ePassword: doc.data()['employeePassword'] ?? '',
         eType: doc.data()['employeeType'] ?? ''
       );
     }).toList();
+  }
+
+  //Employee Data from Snapshot
+  Employee _employeeDataFromSnapshot(DocumentSnapshot snapshot){
+    return Employee(
+      eid: snapshot.data()['employeeId'],
+      eName: snapshot.data()['employeeName'],
+      eEmail: snapshot.data()['employeeEmail'],
+      ePassword: snapshot.data()['employeePassword'],
+      eType: snapshot.data()['employeeType']
+    );
   }
 
 
@@ -41,8 +53,13 @@ class DatabaseService {
   }
 
   //get user doc stream
-  Stream<DocumentSnapshot> get employeeData{
-    return userCollection.doc(eid).snapshots();
+  Stream<Employee> get employeeData{
+    return userCollection.doc(eid).snapshots()
+        .map((_employeeDataFromSnapshot));
   }
 
+  //Delete User with Auth
+  Future deleteUser() {
+    return userCollection.doc(eid).delete();
+  }
 }
