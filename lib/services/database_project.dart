@@ -10,6 +10,7 @@ class ProjectDatabaseService{
   final CollectionReference projectCollection = FirebaseFirestore.instance.collection('projects');
 
 
+
   Future updateProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
 
 
@@ -47,5 +48,6 @@ class ProjectDatabaseService{
     return projectCollection.snapshots()
         .map(_projectListFromSnapshot);
   }
+
 
 }

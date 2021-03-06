@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
+import 'package:horizon/views/home/employee_form.dart';
 
 class EmployeeTile extends StatelessWidget {
 
@@ -8,6 +9,24 @@ class EmployeeTile extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+
+      void _showEmployeePanel() {
+        showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            decoration: new BoxDecoration(
+              color: Colors.brown[100],
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(25.0),
+                topRight: const Radius.circular(25.0),
+              ),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+            child: EmployeeForm(),
+          );
+        });
+      }
+
       return Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Card(
@@ -19,6 +38,9 @@ class EmployeeTile extends StatelessWidget {
             ),
             title: Text(employee.eName),
             subtitle: Text(employee.eType),
+            onTap: () {
+              _showEmployeePanel();
+            },
           ),
         ),
       );
