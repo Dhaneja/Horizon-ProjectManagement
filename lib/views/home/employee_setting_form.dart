@@ -141,8 +141,17 @@ class _EmployeeFormState extends State<EmployeeForm> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-/*                        FirebaseFirestore.instance
-                            .collection('users')*/
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .where('employeeId',isEqualTo: employee.eid)
+                            .get().then((value) {
+                              value.docs.forEach((element) {
+                                FirebaseFirestore.instance.collection('users').doc(employee.eid).delete().then((value) {
+                                  print('Success!');
+                                  Navigator.pop(context);
+                                });
+                              });
+                        });
                       }
                   ),
 

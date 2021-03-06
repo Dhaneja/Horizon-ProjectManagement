@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
+import 'package:horizon/views/home/admin_home.dart';
 
 class Register extends StatefulWidget {
 
@@ -34,15 +35,15 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
-        title: Text('Register to Horizon PM Software'),
+        title: Text('Add Employee'),
         actions: <Widget>[
-          FlatButton.icon(
+/*          FlatButton.icon(
             icon: Icon(Icons.person),
             label: Text('Log In'),
             onPressed: () {
               widget.toggleView();
             },
-          )
+          )*/
         ],
       ),
       body: Container(
@@ -120,7 +121,16 @@ class _RegisterState extends State<Register> {
                         error = 'Please enter a valid email';
                         loading = false;
                       });
-                    }
+                    }else
+                      {
+                        loading = false;
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => AdminHome())
+                        );
+
+                      }
+                  }else{
+
                   }
                 }
               ),

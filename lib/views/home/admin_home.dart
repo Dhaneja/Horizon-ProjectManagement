@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
+import 'package:horizon/views/authenticate/register.dart';
 import 'package:provider/provider.dart';
 import '../employee/employee_list.dart';
 
@@ -26,6 +27,15 @@ class AdminHome extends StatelessWidget {
               label: Text('logout'),
               onPressed: () async {
                 await _authService.signOut();
+              },
+            ),
+            FlatButton.icon(
+              icon: Icon(Icons.person_add),
+              label: Text('Add'),
+              onPressed: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Register())
+                );
               },
             )
           ],
