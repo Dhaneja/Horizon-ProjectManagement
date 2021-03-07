@@ -8,7 +8,7 @@ class ProjectService{
 
     try{
 
-      await ProjectDatabaseService().updateProjectData(projectName, startDate, endDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
+      await ProjectDatabaseService().addProjectData(projectName, startDate, endDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
 
           return null;
 

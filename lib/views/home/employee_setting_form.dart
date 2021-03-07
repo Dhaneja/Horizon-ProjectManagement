@@ -37,8 +37,6 @@ class _EmployeeFormState extends State<EmployeeForm> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return StreamBuilder<Employee>(
       stream: DatabaseService(eid: empValue).employeeData,
       builder: (context, snapshot) {

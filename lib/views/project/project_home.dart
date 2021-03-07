@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_project.dart';
+import 'package:horizon/views/project/project_add.dart';
 import 'package:horizon/views/project/project_list.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +13,9 @@ class ProjectHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return StreamProvider<List<Project>>.value(
-      value: ProjectDatabaseService().projects,
+      value: ProjectDatabaseService().horizonProjects,
       child: Scaffold(
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
@@ -28,6 +30,19 @@ class ProjectHome extends StatelessWidget {
               await _authService.signOut();
           }
         ),
+            FlatButton.icon(
+              icon: Icon(Icons.add),
+              label: Text('Add'),
+              onPressed: () async {
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProjectAdd()));
+              }
+                ),
+/*            FlatButton.icon(
+              icon: Icon(Icons.create),
+              //label: Text('update'),
+              onPressed: () => _projectDataPanel(),
+            )*/
        ]
       ),
         body: ProjectList(),

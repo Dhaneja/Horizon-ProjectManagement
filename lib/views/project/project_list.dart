@@ -13,13 +13,14 @@ class _ProjectListState extends State<ProjectList> {
   @override
   Widget build(BuildContext context) {
 
-    final horizonProjects = Provider.of<List<Project>>(context);
+    final horizonProjects = Provider.of<List<Project>>(context) ?? [];
 
     return ListView.builder(
       itemBuilder: (context, index){
         return ProjectTile(project: horizonProjects[index]);
       },
-      itemCount: horizonProjects.length,);
+      itemCount: horizonProjects.length,
+    );
   }
 }
 

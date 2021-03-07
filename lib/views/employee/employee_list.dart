@@ -5,9 +5,6 @@ import 'package:horizon/views/employee/employee_tile.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeList extends StatefulWidget {
-
-
-
   @override
   _EmployeeListState createState() => _EmployeeListState();
 }

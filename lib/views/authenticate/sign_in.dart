@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/user_access.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
+import 'package:horizon/views/home/admin_home.dart';
+import 'package:horizon/views/home/home.dart';
+import 'package:horizon/views/project/project_home.dart';
+import 'package:horizon/views/task/task_home.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -45,6 +52,7 @@ class _SignInState extends State<SignIn> {
         padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 50.0),
         child: Form(
           key: _formKey,
+          child:SingleChildScrollView(
           child: Column(
             children: <Widget>[
               SizedBox(height: 20.0,),
@@ -77,8 +85,34 @@ class _SignInState extends State<SignIn> {
                     setState(() {
                       loading = true;
                     });
+                    loading = false;
                     dynamic result = await _authService
-                        .signInWithEmailAndPassword(email, password);
+                        .signInWithEmailAndPassword(email, password).then((value) {
+                          FirebaseAuth.instance.currentUser;
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .where('employeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+                              .get()
+                              .then((value) {
+                                var userType = value.docs[0].data()['employeeType'];
+                                if (userType == "System Admin"){
+                                  print(userType);
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => AdminHome()));
+                                }
+                                else if (userType == "Project Manager"){
+                                  print(userType);
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => ProjectHome()));
+                                }
+                                else if (userType == "Developer"){
+                                  print(userType);
+                                  Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => TaskHome()));
+                                    }
+                          });
+                    });
+
                     if (result == null) {
                       setState(() {
                         error = 'Login Failed';
@@ -94,6 +128,7 @@ class _SignInState extends State<SignIn> {
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
+          ),
           ),
         ),
 

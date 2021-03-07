@@ -11,6 +11,7 @@ class Employee {
 
 }
 
+/*
 class EmployeeData{
 
   final String eid;
@@ -21,4 +22,4 @@ class EmployeeData{
 
   EmployeeData({this.eid, this.eEmail, this.eName, this.ePassword, this.eType});
 
-}
+}*/

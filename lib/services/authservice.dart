@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/database.dart';
+import 'package:horizon/services/user_access.dart';
 import 'package:horizon/views/home/admin_home.dart';
 import 'package:horizon/views/project/project_home.dart';
 
@@ -47,6 +48,7 @@ class AuthService{
   //Sign in with Email & Password
   Future signInWithEmailAndPassword(String email, String password) async{
     try{
+
       UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
 
       User user = credential.user;
@@ -86,12 +88,6 @@ class AuthService{
       print(error);
     }
   }
-
-
-  //Delete User with Auth
-
-
-
 
 
 

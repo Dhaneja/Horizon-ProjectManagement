@@ -1,14 +1,15 @@
 class Project {
 
-  final String projectName;
-  final String startDate;
-  final String endDate;
-  final String projectCost;
-  final String projectManager;
-  final String projectClient;
-  final String projectStatus;
-  final String employeeId;
+  final String pid;
+  final String pName;
+  final String sDate;
+  final String eDate;
+  final String pCost;
+  final String pManager;
+  final String pClient;
+  final String pStatus;
+  final String empId;
 
-  Project({ this.projectName, this.startDate, this.endDate, this.projectCost, this.projectManager, this.projectClient, this.projectStatus, this.employeeId});
+  Project({ this.pid,this.pName, this.sDate, this.eDate, this.pCost, this.pManager, this.pClient, this.pStatus, this.empId});
 
 }

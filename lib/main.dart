@@ -14,6 +14,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  String emp;
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Employee>.value(

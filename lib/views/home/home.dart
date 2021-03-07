@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/views/home/admin_home.dart';
 import 'package:horizon/views/project/project_home.dart';
+import 'package:horizon/views/task/task_home.dart';
 import '../project/project_add.dart';
 
 class Home extends StatelessWidget {
@@ -43,7 +44,20 @@ class Home extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ProjectAdd())
+                          MaterialPageRoute(builder: (context) => ProjectHome())
+                      );
+                    }
+                ),
+                SizedBox(height: 20.0,),
+                RaisedButton(
+                    color: Colors.greenAccent[400],
+                    child: Text(
+                      'Tasks',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => TaskHome())
                       );
                     }
                 ),
