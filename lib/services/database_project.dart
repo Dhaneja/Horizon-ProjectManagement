@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/services/authservice.dart';
@@ -29,7 +30,9 @@ class ProjectDatabaseService{
     
   }
 
-  Future updateProjectData(String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
+
+
+/*  Future updateProjectData(String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
 
 
     return await projectCollection.doc(pid).set({
@@ -44,7 +47,7 @@ class ProjectDatabaseService{
       'employeeId' : employeeId,
     });
 
-  }
+  }  */
 
 
   //project list from snapshot
@@ -64,12 +67,48 @@ class ProjectDatabaseService{
     }).toList();
   }
 
-  Project _projectDataFromSnapshot(DocumentSnapshot snapshot){
 
 
-    return Project(
-      pid: snapshot.data()['projectId'],
-      pName: snapshot.data()['projectName'],
+
+  updateProject(selectedProject, newValues){
+    FirebaseFirestore.instance
+        .collection('projects')
+        .doc(selectedProject)
+        .update(newValues)
+        .catchError((error){
+      print(error);
+    });
+  }
+
+
+
+
+  Project _projectDataFromSnapshot(QuerySnapshot snapshot) {
+/*    return snapshot.docs.forEach((doc) {*/
+      return Project(
+
+
+          pid: snapshot.docs[0].data()['projectId'],
+          pName: snapshot.docs[0].data()['projectName'],
+          sDate: snapshot.docs[0].data()['startDate'],
+          eDate: snapshot.docs[0].data()['endDate'],
+          pCost: snapshot.docs[0].data()['projectCost'],
+          pManager: snapshot.docs[0].data()['projectManager'],
+          pClient: snapshot.docs[0].data()['projectClient'],
+          pStatus: snapshot.docs[0].data()['projectStatus'],
+          empId: snapshot.docs[0].data()['employeeId']
+          /*empId: (doc['employeeId'])*/
+      );
+    }
+  /*}*/
+
+
+
+/*    return Project(
+
+
+      pid: snapshot.docs.data()['projectId'],
+      pName: snapshot.docs[pid].data()['projectName'],
       sDate: snapshot.data()['startDate'],
       eDate: snapshot.data()['endDate'],
       pCost: snapshot.data()['projectCost'],
@@ -77,8 +116,8 @@ class ProjectDatabaseService{
       pClient: snapshot.data()['projectClient'],
       pStatus: snapshot.data()['projectStatus'],
       empId: snapshot.data()['employeeId']
-    );
-  }
+    );*/
+
 
 
   //get project stream
@@ -88,11 +127,13 @@ class ProjectDatabaseService{
   }
 
   //get project doc stream
-  Stream<Project> get projectData{
-    return projectCollection.doc(pid).snapshots()
+   Stream<Project> get projectData {
+    return  projectCollection.where('projectId', isEqualTo: pid).snapshots()
         .map((_projectDataFromSnapshot));
   }
-
+  getProjects() async{
+    return await FirebaseFirestore.instance.collection('projects').snapshots();
+  }
 
 
 }

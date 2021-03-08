@@ -47,6 +47,7 @@ class ProjectTile extends StatelessWidget {
           subtitle: Text('by  ${project.pClient} '),
           onTap: () {
            projectValue = project.pid.toString();
+   /*        FirebaseFirestore.instance.collection('project').doc(selectedDoc)*/
 /*           projectRef.get().then((snapshot) {
              snapshot.docs.forEach((doc) {
                tempVal = (doc.data()['B5Eu6fj70iGdoSX27E0k']);

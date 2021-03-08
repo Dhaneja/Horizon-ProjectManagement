@@ -33,14 +33,16 @@ class _ProjectFormState extends State<ProjectForm> {
   String _pStatus;
   String _empId;
 
+  /*'B5Eu6fj70iGdoSX27E0k'*/
+
   @override
   Widget build(BuildContext context) {
 
 
     return StreamBuilder<Project>(
-      stream: ProjectDatabaseService(pid:'B5Eu6fj70iGdoSX27E0k').projectData,
+      stream: ProjectDatabaseService(pid:projectValue).projectData,
       builder: (context, snapshot){
-/*        if (snapshot.hasData){*/
+        if (snapshot.hasData){
 
           Project project = snapshot.data;
 
@@ -61,7 +63,7 @@ class _ProjectFormState extends State<ProjectForm> {
                   validator: (val) => val.isEmpty ? 'Please Enter Project Name' : null,
                   onChanged: (val) => setState(() => _pName = val),
                 ),
- /*               SizedBox(height: 20.0),
+                SizedBox(height: 20.0),
                 TextFormField(
                   initialValue: project.pClient,
                   decoration: textInputStyle.copyWith(hintText: project.pClient),
@@ -69,19 +71,22 @@ class _ProjectFormState extends State<ProjectForm> {
                   onChanged: (val) => setState(() => _pClient = val),
                 ),
                 SizedBox(height: 20.0),
-                TextFormField(
+                Text('Start Date:  ${project.sDate}'),
+
+/*                TextFormField(
                   initialValue: project.sDate,
                   decoration: textInputStyle.copyWith(hintText: project.sDate),
                   validator: (val) => val.isEmpty ? 'Please Enter Start Date' : null,
                   onChanged: (val) => setState(() => _pStartDate = val),
-                ),
+                ),*/
                 SizedBox(height: 20.0),
-                TextFormField(
+                Text('End Date:  ${project.eDate}'),
+/*                TextFormField(
                   initialValue: project.eDate,
                   decoration: textInputStyle.copyWith(hintText: project.eDate),
                   validator: (val) => val.isEmpty ? 'Please Enter End Date' : null,
                   onChanged: (val) => setState(() => _pEndDate = val),
-                ),
+                ),*/
                 SizedBox(height: 20.0),
                 TextFormField(
                   initialValue: project.pCost,
@@ -89,7 +94,7 @@ class _ProjectFormState extends State<ProjectForm> {
                   validator: (val) => val.isEmpty ? 'Please Enter Project Cost' : null,
                   onChanged: (val) => setState(() => _pCost = val),
                 ),
-                SizedBox(height: 20.0),
+/*                SizedBox(height: 20.0),
                 TextFormField(
                   initialValue: project.pManager,
                   decoration: textInputStyle.copyWith(hintText: project.pManager),
@@ -99,8 +104,8 @@ class _ProjectFormState extends State<ProjectForm> {
                 SizedBox(height: 20.0),
                 //dropdown
                 DropdownButtonFormField(
-                  /*value: null,*/
-/*                  value: _pStatus ?? project.pStatus,*/
+/*                  value: null,*/
+                  value: _pStatus ?? project.pStatus,
                   decoration: textInputStyle.copyWith(hintText: 'Project Status'),
                   items: projectStatus.map((proStatus) {
                     return DropdownMenuItem(
@@ -119,8 +124,8 @@ class _ProjectFormState extends State<ProjectForm> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      if(_formKey.currentState.validate()){
-                        await ProjectDatabaseService(pid: 'B5Eu6fj70iGdoSX27E0k').updateProjectData(
+/*                      if(_formKey.currentState.validate()){
+                        await ProjectDatabaseService(pid: projectValue).updateProjectData(
                             _pid ?? projectValue,
                             _pName ?? project.pName,
                             _pStartDate ?? project.sDate,
@@ -132,16 +137,16 @@ class _ProjectFormState extends State<ProjectForm> {
                             _empId ?? project.empId
                         );
                         Navigator.pop(context);
-                      }
+                      }*/
                     }
                 ),
               ],
             ),
           );
 
-        /*}else{
+        }else{
           return Loading();
-        }*/
+        }
       }
 
     );
