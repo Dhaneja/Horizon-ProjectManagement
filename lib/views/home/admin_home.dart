@@ -4,6 +4,7 @@ import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/views/authenticate/register.dart';
+import 'package:horizon/views/authenticate/sign_in.dart';
 import 'package:provider/provider.dart';
 import '../employee/employee_list.dart';
 
@@ -27,6 +28,7 @@ class AdminHome extends StatelessWidget {
               label: Text('logout'),
               onPressed: () async {
                 await _authService.signOut();
+                return SignIn();
               },
             ),
             FlatButton.icon(

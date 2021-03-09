@@ -86,38 +86,15 @@ class _SignInState extends State<SignIn> {
                       loading = true;
                     });
                     loading = false;
-                    dynamic result = await _authService
-                        .signInWithEmailAndPassword(email, password).then((value) {
-                          FirebaseAuth.instance.currentUser;
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .where('employeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
-                              .get()
-                              .then((value) {
-                                var userType = value.docs[0].data()['employeeType'];
-                                if (userType == "System Admin"){
-                                  print(userType);
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => AdminHome()));
-                                }
-                                else if (userType == "Project Manager"){
-                                  print(userType);
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => ProjectHome()));
-                                }
-/*                                else if (userType == "Developer"){
-                                  print(userType);
-                                  Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) => TaskHome()));
-                                    }*/
-                          });
-                    });
+                    dynamic result = await _authService.signInWithEmailAndPassword(email, password);
 
                     if (result == null) {
                       setState(() {
                         error = 'Login Failed';
                         loading = false;
                       });
+                    }else{
+                      error = 'Login Failed';
                     }
                   }
                 }

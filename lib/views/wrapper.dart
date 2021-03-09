@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
+import 'package:horizon/second_wrapper.dart';
 import 'package:horizon/shared/user_identify.dart';
 import 'package:horizon/views/authenticate/authenticate.dart';
 import 'package:horizon/views/authenticate/register.dart';
+import 'package:horizon/views/employee/employee_home.dart';
 import 'package:horizon/views/home/admin_home.dart';
 import 'package:horizon/views/home/home.dart';
 import 'package:horizon/views/project/project_home.dart';
@@ -16,33 +18,19 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final currentUser = Provider.of<Employee>(context);
 
+
     //return either Home or Authenticate widget
-    if (currentUser == null)  {
+    if (currentUser == null) {
       return Authenticate();
-    }else{
-      return Home();
+    } else {
+      return SecondWrapper();
     }
   }
+
 }
-
-/*    final currentUser = Provider.of<Employee>(context);
-
-    bool loading = false;
-
-    if (currentUser == null){
-      Authenticate();
-    }else
-      return _selectInterface(context);
-
-  }
-}*/
-
-
-/*
-    _selectInterface(context){
+/*    _selectInterface(){
      FirebaseAuth.instance.currentUser;
       FirebaseFirestore.instance
           .collection('users')
@@ -62,7 +50,7 @@ class Wrapper extends StatelessWidget {
         }
         else{
           print(userType);
-          return TaskHome();
+          return EmployeeHome();
           var loading = false;
         }
       });

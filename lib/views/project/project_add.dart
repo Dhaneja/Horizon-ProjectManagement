@@ -5,6 +5,7 @@ import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/project_service.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
+import 'package:horizon/views/project/project_home.dart';
 
 
 class ProjectAdd extends StatefulWidget {
@@ -19,6 +20,8 @@ class ProjectAdd extends StatefulWidget {
 }
 
 class _ProjectAddState extends State<ProjectAdd> {
+
+  DateTime _dateTime;
 
   bool loading = false;
   final AuthService _authService = AuthService();
@@ -47,13 +50,6 @@ class _ProjectAddState extends State<ProjectAdd> {
         elevation: 0.0,
         title: Text('Create Project'),
         actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('logout'),
-            onPressed: () async {
-              await _authService.signOut();
-            },
-          )
         ],
       ),
       body: Container(
@@ -75,6 +71,12 @@ class _ProjectAddState extends State<ProjectAdd> {
                 },
               ),
               SizedBox(height: 20.0,),
+
+/*              RaisedButton(
+                child: Text(_dateTime == null ? 'Choose Starting Date' : _dateTime.toString()),
+                  onPressed: null
+              ),*/
+
               TextFormField(
                 decoration: textInputStyle.copyWith(hintText: 'Start Date'),
                 onChanged: (startDateInput){
@@ -83,6 +85,7 @@ class _ProjectAddState extends State<ProjectAdd> {
                   });
                 },
               ),
+
               SizedBox(height: 20.0,),
               TextFormField(
                 decoration: textInputStyle.copyWith(hintText: 'End Date'),
@@ -146,6 +149,13 @@ class _ProjectAddState extends State<ProjectAdd> {
                           error = 'Please enter all details';
                           loading = false;
                         });
+                      }else
+                      {
+                        loading = false;
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ProjectHome())
+                        );
+
                       }
                     }
 

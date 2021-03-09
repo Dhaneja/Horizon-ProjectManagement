@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_project.dart';
+import 'package:horizon/views/authenticate/sign_in.dart';
 import 'file:///F:/Esoft/Android/horizon/lib/views/project/employee_setting_form.dart';
 import 'package:horizon/views/project/project_add.dart';
 import 'package:horizon/views/project/project_list.dart';
@@ -47,6 +48,7 @@ class ProjectHome extends StatelessWidget {
             label: Text('logout'),
             onPressed: () async {
               await _authService.signOut();
+              return SignIn();
           }
         ),
             IconButton(

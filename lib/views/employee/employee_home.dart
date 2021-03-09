@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/model/task.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_task.dart';
+import 'package:horizon/views/authenticate/sign_in.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:horizon/views/task/task_employee_list.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,7 @@ class EmployeeHome extends StatelessWidget {
                   label: Text('logout'),
                   onPressed: () async {
                     await _authService.signOut();
+                    return SignIn();
                   }
               ),
               IconButton(
