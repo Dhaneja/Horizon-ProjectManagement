@@ -23,6 +23,19 @@ class TaskDatabaseService{
 
   }*/
 
+  Future addTaskData(String taskName, String taskStatus, String taskEmployee, String projectId) async {
+
+    return await taskCollection.add({
+
+      'taskId': taskCollection.doc().id,
+      'taskName': taskName,
+      'taskStatus':taskStatus,
+      'taskEmployee':taskEmployee,
+      'projectId':projectId
+
+    });
+  }
+
   Future updateTaskData( String taskId, String taskName, String taskStatus, String taskEmployee, String projectId) async {
 
     try {
