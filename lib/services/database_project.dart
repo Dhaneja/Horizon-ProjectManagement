@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/model/project.dart';
+import 'package:horizon/model/task.dart';
 import 'package:horizon/services/authservice.dart';
 
 class ProjectDatabaseService{
@@ -13,6 +14,8 @@ class ProjectDatabaseService{
 
   //Collection Reference
   final CollectionReference projectCollection = FirebaseFirestore.instance.collection('projects');
+
+  final CollectionReference taskCollection = FirebaseFirestore.instance.collection('tasks');
 
 
   Future addProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
@@ -32,22 +35,28 @@ class ProjectDatabaseService{
 
 
 
-/*  Future updateProjectData(String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
+  Future updateProjectData( String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
 
+    try {
+      return await projectCollection.where('projectId', isEqualTo: pid).get().then((value) => value.docs.forEach((element) { element.reference.update(
+          {
+            'projectId': projectId,
+            'projectName': projectName,
+            'startDate': startDate,
+            'endDate': endDate,
+            'projectCost': projectCost,
+            'projectManager': projectManager,
+            'projectClient': projectClient,
+            'projectStatus': projectStatus,
+            'employeeId': employeeId,
+          });
+      })
+      );
+    }catch(error){
+      print(error);
+    }
 
-    return await projectCollection.doc(pid).set({
-      'projectId' : projectId,
-      'projectName' : projectName,
-      'startDate' : startDate,
-      'endDate' : endDate,
-      'projectCost' : projectCost,
-      'projectManager' : projectManager,
-      'projectClient' : projectClient,
-      'projectStatus' : projectStatus,
-      'employeeId' : employeeId,
-    });
-
-  }  */
+  }
 
 
   //project list from snapshot
@@ -63,6 +72,19 @@ class ProjectDatabaseService{
           pClient: doc.data()['projectClient'] ?? '',
           pStatus: doc.data()['projectStatus'] ?? '',
           empId:  doc.data()['employeeId'] ?? ''
+      );
+    }).toList();
+  }
+
+  //project list from snapshot
+  List<Task> _taskListFromSnapshot(QuerySnapshot snapshot){
+    return snapshot.docs.map((doc){
+      return Task(
+        taskId: doc.data()['taskId'] ?? '',
+        taskName: doc.data()['taskName'] ?? '',
+        taskStatus: doc.data()['taskStatus'] ?? '',
+        taskEmployee: doc.data()['taskEmployee'] ?? '',
+        projectId: pid
       );
     }).toList();
   }
@@ -122,18 +144,26 @@ class ProjectDatabaseService{
 
   //get project stream
   Stream<List<Project>> get horizonProjects {
-    return projectCollection.snapshots()
+    return projectCollection.where('employeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots()
         .map(_projectListFromSnapshot);
   }
+
+  Stream<List<Task>> get horizonTasks {
+    return taskCollection.where('projectId', isEqualTo: pid).snapshots()
+        .map(_taskListFromSnapshot);
+  }
+
+
+
 
   //get project doc stream
    Stream<Project> get projectData {
     return  projectCollection.where('projectId', isEqualTo: pid).snapshots()
         .map((_projectDataFromSnapshot));
   }
-  getProjects() async{
+/*  getProjects() async{
     return await FirebaseFirestore.instance.collection('projects').snapshots();
-  }
+  }*/
 
 
 }

@@ -37,6 +37,19 @@ class Home extends StatelessWidget {
               children: <Widget>[
                 SizedBox(height: 20.0,),
                 RaisedButton(
+                    color: Colors.red[400],
+                    child: Text(
+                      'Admin',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AdminHome())
+                      );
+                    }
+                ),
+                SizedBox(height: 20.0,),
+                RaisedButton(
                     color: Colors.orangeAccent[400],
                     child: Text(
                       'Projects',
@@ -56,9 +69,9 @@ class Home extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
+/*                      Navigator.push(context,
                           MaterialPageRoute(builder: (context) => TaskHome())
-                      );
+                      );*/
                     }
                 ),
               ],

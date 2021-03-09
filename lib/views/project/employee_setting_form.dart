@@ -1,28 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 
+
 class EmployeeForm extends StatefulWidget {
 
-  String empValue;
-  EmployeeForm({this.empValue});
 
   @override
-  _EmployeeFormState createState() => _EmployeeFormState(empValue);
+  _EmployeeFormState createState() => _EmployeeFormState();
 }
 
 class _EmployeeFormState extends State<EmployeeForm> {
 
-  String empValue;
-  _EmployeeFormState(this.empValue);
-
-/*  _EmployeeFormState(this.employeeid);
-  final DocumentSnapshot employeeid;*/
 
   final _formKey = GlobalKey<FormState>();
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
@@ -34,22 +28,25 @@ class _EmployeeFormState extends State<EmployeeForm> {
   String _eName;
   String _eType;
 
+  String currentEmployeeId = FirebaseAuth.instance.currentUser.uid;
+  String currentEmployeeEmail = FirebaseAuth.instance.currentUser.email;
+
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Employee>(
-      stream: DatabaseService(eid: empValue).employeeData,
-      builder: (context, snapshot) {
-        if(snapshot.hasData){
+        stream: DatabaseService(eid: currentEmployeeId).employeeData,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
 
-          Employee employee = snapshot.data;
+            Employee employee = snapshot.data;
 
-          return Form(
+            return Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Update Employee Data',
+                    'Employee Profile',
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 20.0),
@@ -77,9 +74,14 @@ class _EmployeeFormState extends State<EmployeeForm> {
 
                   //DropDownBox
                   SizedBox(height: 20.0),
+                  TextFormField(
+                    enabled: false,
+                    readOnly: true,
+                    decoration: textInputStyle.copyWith(hintText: employee.eType),
+                  ),
                   //dropdown
-                  DropdownButtonFormField(
-                    /*value: null,*/
+/*                  DropdownButtonFormField(
+                    *//*value: null,*//*
                     value: _eType ?? employee.eType,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
                     items: employeeTypes.map((employeeType) {
@@ -89,7 +91,8 @@ class _EmployeeFormState extends State<EmployeeForm> {
                       );
                     }).toList(),
                     onChanged: (val) => setState(() => _eType = val),
-                  ),
+                  ),*/
+
 
                   //Update Button
                   SizedBox(height: 10.0),
@@ -102,12 +105,12 @@ class _EmployeeFormState extends State<EmployeeForm> {
                       ),
                       onPressed: () async {
                         if(_formKey.currentState.validate()){
-                          await DatabaseService(eid: empValue).updateUserData(
-                            _eid ?? empValue,
-                            _eName ?? employee.eName,
-                            _eEmail ?? employee.eEmail,
-                            _ePassword ?? employee.ePassword,
-                            _eType ?? employee.eType
+                          await DatabaseService(eid: currentEmployeeId ).updateUserData(
+                              _eid ?? currentEmployeeId,
+                              _eName ?? employee.eName,
+                              _eEmail ?? employee.eEmail,
+                              _ePassword ?? employee.ePassword,
+                              _eType ?? employee.eType
                           );
                           Navigator.pop(context);
                         }
@@ -124,43 +127,18 @@ class _EmployeeFormState extends State<EmployeeForm> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        await AuthService().passwordReset(employee.eEmail);
+                        await AuthService().passwordReset(currentEmployeeEmail);
                         print(employee.eEmail);
                       }
                   ),
-
-                  //Delete Password Button
-                  SizedBox(height: 10.0),
-
-                  RaisedButton(
-                      color: Colors.red,
-                      child: Text(
-                        'Delete Employee Account',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        FirebaseFirestore.instance
-                            .collection('users')
-                            .where('employeeId',isEqualTo: employee.eid)
-                            .get().then((value) {
-                              value.docs.forEach((element) {
-                                FirebaseFirestore.instance.collection('users').doc(employee.eid).delete().then((value) {
-                                  print('Success!');
-                                  Navigator.pop(context);
-                                });
-                              });
-                        });
-                      }
-                  ),
-
                 ],
               ),
-          );
+            );
 
-        }else{
-          return Loading();
+          }else{
+            return Loading();
+          }
         }
-      }
     );
   }
 }

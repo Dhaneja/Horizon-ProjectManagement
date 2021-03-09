@@ -105,11 +105,11 @@ class _SignInState extends State<SignIn> {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) => ProjectHome()));
                                 }
-                                else if (userType == "Developer"){
+/*                                else if (userType == "Developer"){
                                   print(userType);
                                   Navigator.push(context,
                                           MaterialPageRoute(builder: (context) => TaskHome()));
-                                    }
+                                    }*/
                           });
                     });
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_project.dart';
+import 'file:///F:/Esoft/Android/horizon/lib/views/project/employee_setting_form.dart';
 import 'package:horizon/views/project/project_add.dart';
 import 'package:horizon/views/project/project_list.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,24 @@ class ProjectHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void _showCurrentEmployeePanel() {
+      showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.65 ,
+          decoration: new BoxDecoration(
+            color: Colors.brown[100],
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(25.0),
+              topRight: const Radius.circular(25.0),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+          child: EmployeeForm(),
+        );
+      });
+    }
+
 
     return StreamProvider<List<Project>>.value(
       value: ProjectDatabaseService().horizonProjects,
@@ -30,14 +49,23 @@ class ProjectHome extends StatelessWidget {
               await _authService.signOut();
           }
         ),
-            FlatButton.icon(
+            IconButton(
               icon: Icon(Icons.add),
-              label: Text('Add'),
+              /*color: Colors.black,*/
+              /*label: Text('Add'),*/
               onPressed: () async {
                 Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ProjectAdd()));
               }
                 ),
+            IconButton(
+                icon: Icon(Icons.settings),
+                /*color: Colors.black,*/
+                /*label: Text('Add'),*/
+                onPressed: ()  {
+                  _showCurrentEmployeePanel();
+                }
+            ),
 /*            FlatButton.icon(
               icon: Icon(Icons.create),
               //label: Text('update'),

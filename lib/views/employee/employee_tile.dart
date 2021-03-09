@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/views/home/employee_setting_form.dart';
+import 'package:horizon/views/home/admin_employee_setting_form.dart';
 
 class EmployeeTile extends StatelessWidget {
 
@@ -26,7 +26,7 @@ class EmployeeTile extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-            child: EmployeeForm(empValue: empValue),
+            child: AdminEmployeeForm(empValue: empValue),
           );
         });
       }

@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/services/database_project.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
+import 'package:horizon/views/task/task_home.dart';
 import 'package:provider/provider.dart';
 
 class ProjectForm extends StatefulWidget {
@@ -32,6 +36,8 @@ class _ProjectFormState extends State<ProjectForm> {
   String _pClient;
   String _pStatus;
   String _empId;
+
+  String docId;
 
   /*'B5Eu6fj70iGdoSX27E0k'*/
 
@@ -66,7 +72,7 @@ class _ProjectFormState extends State<ProjectForm> {
                 SizedBox(height: 20.0),
                 TextFormField(
                   initialValue: project.pClient,
-                  decoration: textInputStyle.copyWith(hintText: project.pClient),
+                  decoration: textInputStyle.copyWith(hintText: 'Project Client'),
                   validator: (val) => val.isEmpty ? 'Please Enter Client Name' : null,
                   onChanged: (val) => setState(() => _pClient = val),
                 ),
@@ -124,20 +130,42 @@ class _ProjectFormState extends State<ProjectForm> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-/*                      if(_formKey.currentState.validate()){
-                        await ProjectDatabaseService(pid: projectValue).updateProjectData(
-                            _pid ?? projectValue,
-                            _pName ?? project.pName,
-                            _pStartDate ?? project.sDate,
-                            _pEndDate ?? project.eDate,
-                            _pCost ?? project.pCost,
-                            _pManager ?? project.pManager,
-                            _pClient ?? project.pClient,
-                            _pStatus ?? project.pStatus,
-                            _empId ?? project.empId
-                        );
-                        Navigator.pop(context);
-                      }*/
+/*                     docId = FirebaseFirestore.instance.collection('projects').doc(projectValue).get().toString();
+
+                     print(docId);*/
+
+                     try {
+                       if (_formKey.currentState.validate()) {
+                         await ProjectDatabaseService(pid: projectValue)
+                             .updateProjectData(
+                             _pid ?? projectValue,
+                             _pName ?? project.pName,
+                             _pStartDate ?? project.sDate,
+                             _pEndDate ?? project.eDate,
+                             _pCost ?? project.pCost,
+                             _pManager ?? project.pManager,
+                             _pClient ?? project.pClient,
+                             _pStatus ?? project.pStatus,
+                             _empId ?? project.empId
+                         );
+                         Navigator.pop(context);
+                       }
+                     }catch(error){
+                       print(error);
+                     }
+                    }
+                ),
+                SizedBox(height: 20.0,),
+                RaisedButton(
+                    color: Colors.orange[400],
+                    child: Text(
+                      'Tasks',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => TaskHome(projectValue))
+                      );
                     }
                 ),
               ],
