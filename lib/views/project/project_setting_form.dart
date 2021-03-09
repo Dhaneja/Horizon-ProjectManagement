@@ -12,17 +12,17 @@ import 'package:provider/provider.dart';
 
 class ProjectForm extends StatefulWidget {
 
-  String projectValue;
-  ProjectForm({this.projectValue});
+  String projectIdValue, projectNameValue;
+  ProjectForm({this.projectIdValue, this.projectNameValue});
 
   @override
-  _ProjectFormState createState() => _ProjectFormState(projectValue);
+  _ProjectFormState createState() => _ProjectFormState(projectIdValue, projectNameValue);
 }
 
 class _ProjectFormState extends State<ProjectForm> {
 
-  String projectValue;
-  _ProjectFormState(this.projectValue);
+  String projectIdValue, projectNameValue;
+  _ProjectFormState(this.projectIdValue, this.projectNameValue);
 
   final _formKey = GlobalKey<FormState>();
   final List<String> projectStatus = ['Ongoing','Finished','Cancelled','On hold'];
@@ -46,7 +46,7 @@ class _ProjectFormState extends State<ProjectForm> {
 
 
     return StreamBuilder<Project>(
-      stream: ProjectDatabaseService(pid:projectValue).projectData,
+      stream: ProjectDatabaseService(pid:projectIdValue).projectData,
       builder: (context, snapshot){
         if (snapshot.hasData){
 
@@ -136,9 +136,9 @@ class _ProjectFormState extends State<ProjectForm> {
 
                      try {
                        if (_formKey.currentState.validate()) {
-                         await ProjectDatabaseService(pid: projectValue)
+                         await ProjectDatabaseService(pid: projectIdValue)
                              .updateProjectData(
-                             _pid ?? projectValue,
+                             _pid ?? projectIdValue,
                              _pName ?? project.pName,
                              _pStartDate ?? project.sDate,
                              _pEndDate ?? project.eDate,
@@ -164,7 +164,7 @@ class _ProjectFormState extends State<ProjectForm> {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => TaskHome(projectValue))
+                          MaterialPageRoute(builder: (context) => TaskHome(projectIdValue, projectNameValue))
                       );
                     }
                 ),

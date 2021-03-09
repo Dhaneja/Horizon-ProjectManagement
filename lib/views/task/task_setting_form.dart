@@ -28,7 +28,9 @@ class _TaskFormState extends State<TaskForm> {
   String _tName;
   String _tStatus;
   String _tEmployee;
+  String _tEmployeeId;
   String _tProjectId;
+  String _tProjectName;
 
 
   @override
@@ -65,7 +67,7 @@ class _TaskFormState extends State<TaskForm> {
 
                   SizedBox(height: 20.0,),
                   StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('users').snapshots(),
+                      stream: FirebaseFirestore.instance.collection('users').where('employeeType', isEqualTo: 'Developer').snapshots(),
                       builder: (context, snapshot){
                         if(snapshot.hasData){
                           List<DropdownMenuItem> employeeItems=[];
@@ -123,11 +125,13 @@ class _TaskFormState extends State<TaskForm> {
                           if(_formKey.currentState.validate()){
                             await TaskDatabaseService(tid: taskValue)
                                 .updateTaskData(
-                                _tid ?? task.taskId,
+                                _tid ?? task.taskId ?? taskValue,
                                 _tName ?? task.taskName,
                                 _tStatus ?? task.taskStatus,
                                 _tEmployee ?? task.taskEmployee,
-                                _tProjectId ?? task.projectId
+                                _tEmployeeId ?? task.taskEmployeeId,
+                                _tProjectId ?? task.taskProjectId,
+                              _tProjectName ?? task.taskProjectName
                             );
                             Navigator.pop(context);
                           }

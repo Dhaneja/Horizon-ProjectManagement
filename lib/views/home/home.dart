@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
+import 'package:horizon/views/employee/employee_home.dart';
 import 'package:horizon/views/home/admin_home.dart';
 import 'package:horizon/views/project/project_home.dart';
 import 'package:horizon/views/task/task_home.dart';
@@ -65,13 +66,13 @@ class Home extends StatelessWidget {
                 RaisedButton(
                     color: Colors.greenAccent[400],
                     child: Text(
-                      'Tasks',
+                      'Employee Home',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-/*                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => TaskHome())
-                      );*/
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => EmployeeHome())
+                      );
                     }
                 ),
               ],

@@ -84,7 +84,7 @@ class ProjectDatabaseService{
         taskName: doc.data()['taskName'] ?? '',
         taskStatus: doc.data()['taskStatus'] ?? '',
         taskEmployee: doc.data()['taskEmployee'] ?? '',
-        projectId: pid
+        taskProjectId: pid
       );
     }).toList();
   }
@@ -148,8 +148,11 @@ class ProjectDatabaseService{
         .map(_projectListFromSnapshot);
   }
 
+
+
+
   Stream<List<Task>> get horizonTasks {
-    return taskCollection.where('projectId', isEqualTo: pid).snapshots()
+    return taskCollection.where('taskProjectId', isEqualTo: pid).snapshots()
         .map(_taskListFromSnapshot);
   }
 

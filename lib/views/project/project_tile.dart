@@ -12,7 +12,7 @@ class ProjectTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String projectValue;
+    String projectIdValue, projectNameValue;
     String tempVal;
 
     void _showProjectPanel() {
@@ -27,7 +27,7 @@ class ProjectTile extends StatelessWidget {
             ),
           ),
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-          child: ProjectForm(projectValue: projectValue),
+          child: ProjectForm(projectIdValue: projectIdValue, projectNameValue: projectNameValue),
         );
       });
     }
@@ -46,7 +46,8 @@ class ProjectTile extends StatelessWidget {
           title: Text(project.pName),
           subtitle: Text('by  ${project.pClient} '),
           onTap: () {
-           projectValue = project.pid.toString();
+           projectIdValue = project.pid.toString();
+           projectNameValue = project.pName.toString();
    /*        FirebaseFirestore.instance.collection('project').doc(selectedDoc)*/
 /*           projectRef.get().then((snapshot) {
              snapshot.docs.forEach((doc) {
@@ -55,7 +56,7 @@ class ProjectTile extends StatelessWidget {
            });*/
            //print(FirebaseFirestore.instance.collection('projects').doc().data['projectId']);
            print(tempVal);
-           print(projectValue);
+           print(projectIdValue);
            _showProjectPanel();
           },
         ),

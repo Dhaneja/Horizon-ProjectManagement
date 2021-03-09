@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/task.dart';
-import 'package:horizon/services/database_project.dart';
+import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_task.dart';
-import 'package:horizon/views/task/task_add_form.dart';
-import 'package:horizon/views/task/task_list.dart';
+import 'package:horizon/views/project/employee_setting_form.dart';
+import 'package:horizon/views/task/task_employee_list.dart';
 import 'package:provider/provider.dart';
 
-class TaskHome extends StatelessWidget {
+class EmployeeHome extends StatelessWidget {
 
-  TaskHome(this.projectIdValue, this.projectNameValue);
-  final String projectIdValue, projectNameValue;
-
-
-  /*
-  String projectValue;
-  ProjectForm({this.projectValue});*/
-
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
 
-    void _showTaskAddPanel() {
+    void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
           height: MediaQuery.of(context).size.height * 0.65 ,
@@ -32,14 +25,14 @@ class TaskHome extends StatelessWidget {
             ),
           ),
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-          child: TaskAddForm(projectIdValue: projectIdValue, projectNameValue: projectNameValue),
+          child: EmployeeForm(),
         );
       });
     }
 
 
     return StreamProvider<List<Task>>.value(
-        value: ProjectDatabaseService(pid: projectIdValue).horizonTasks,
+      value: TaskDatabaseService().employeeTask,
       child: Scaffold(
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
@@ -47,25 +40,22 @@ class TaskHome extends StatelessWidget {
             backgroundColor: Colors.brown[400],
             elevation: 0.0,
             actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.add),
-                  /*color: Colors.black,*/
-                  /*label: Text('Add'),*/
-                  onPressed: () {
-                    _showTaskAddPanel();
+              FlatButton.icon(
+                  icon: Icon(Icons.person),
+                  label: Text('logout'),
+                  onPressed: () async {
+                    await _authService.signOut();
                   }
               ),
               IconButton(
                   icon: Icon(Icons.settings),
-                  /*color: Colors.black,*/
-                  /*label: Text('Add'),*/
                   onPressed: ()  {
-
+                    _showCurrentEmployeePanel();
                   }
               ),
             ]
         ),
-        body: TaskList(),
+        body: TaskHomeList(),
       ),
     );
   }

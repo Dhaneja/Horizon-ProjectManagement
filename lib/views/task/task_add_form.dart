@@ -7,23 +7,23 @@ import 'package:horizon/shared/loading.dart';
 
 class TaskAddForm extends StatefulWidget {
 
-  String projectValue;
-  TaskAddForm({this.projectValue});
+  String projectIdValue, projectNameValue;
+  TaskAddForm({this.projectIdValue, this.projectNameValue});
 
   @override
-  _TaskAddFormState createState() => _TaskAddFormState(projectValue);
+  _TaskAddFormState createState() => _TaskAddFormState(projectIdValue, projectNameValue);
 }
 
 class _TaskAddFormState extends State<TaskAddForm> {
 
   var currentEmployee;
 
-  String projectValue;
-  _TaskAddFormState(this.projectValue);
+  String temp;
+
+  String projectIdValue, projectNameValue;
+  _TaskAddFormState(this.projectIdValue,this.projectNameValue);
 
   final _formKey = GlobalKey<FormState>();
-
-  List<String> _assignEmployee=<String>['New', 'Senpai'];
 
   bool loading = false;
 
@@ -31,7 +31,9 @@ class _TaskAddFormState extends State<TaskAddForm> {
   String _tName = '';
   String _tStatus = '';
   String _tEmployee = '';
+  String _tEmployeeId = '';
   String _tProjectId = '';
+  String _tProjectName = '';
 
   String projectName = '';
 
@@ -59,12 +61,13 @@ class _TaskAddFormState extends State<TaskAddForm> {
 
           SizedBox(height: 20.0,),
           StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('users').snapshots(),
+            stream: FirebaseFirestore.instance.collection('users').where('employeeType', isEqualTo: 'Developer').snapshots(),
               builder: (context, snapshot){
               if(snapshot.hasData){
                 List<DropdownMenuItem> employeeItems=[];
                 for(int i=0;i<snapshot.data.docs.length;i++){
                   DocumentSnapshot snap = snapshot.data.docs[i];
+                  //DocumentSnapshot snap2 = snapshot.data.docs[i];
                   employeeItems.add(
                     DropdownMenuItem(
                         child: Text(
@@ -72,9 +75,11 @@ class _TaskAddFormState extends State<TaskAddForm> {
                         ),
                       value: "${snap.get('employeeName').toString()}",
 
+
                     )
 
                   );
+                  temp = "${snap.get('employeeId').toString()}";
 
                 }
 
@@ -122,7 +127,9 @@ class _TaskAddFormState extends State<TaskAddForm> {
                         _tName,
                         _tStatus = 'Ongoing',
                         currentEmployee,
-                        _tProjectId = projectValue,
+                       _tEmployeeId = temp,
+                        _tProjectId = projectIdValue,
+                      _tProjectName = projectNameValue
                     );
                     if(result == null){
                       setState(() {
