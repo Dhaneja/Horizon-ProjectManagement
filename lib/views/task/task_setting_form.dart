@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/task.dart';
 import 'package:horizon/services/database_task.dart';
@@ -14,6 +15,8 @@ class TaskForm extends StatefulWidget {
 }
 
 class _TaskFormState extends State<TaskForm> {
+
+  var currentEmployee;
 
   String taskValue;
   _TaskFormState(this.taskValue);
@@ -59,12 +62,53 @@ class _TaskFormState extends State<TaskForm> {
                     readOnly: true,
                     decoration: textInputStyle.copyWith(hintText: task.taskStatus),
                   ),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    initialValue: task.taskEmployee,
-                    decoration: textInputStyle.copyWith(hintText: task.taskEmployee),
-                    validator: (val) => val.isEmpty ? 'Please Enter Assigned Employee' : null,
-                    onChanged: (val) => setState(() => _tEmployee = val),
+
+                  SizedBox(height: 20.0,),
+                  StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance.collection('users').snapshots(),
+                      builder: (context, snapshot){
+                        if(snapshot.hasData){
+                          List<DropdownMenuItem> employeeItems=[];
+                          for(int i=0;i<snapshot.data.docs.length;i++){
+                            DocumentSnapshot snap = snapshot.data.docs[i];
+                            employeeItems.add(
+                                DropdownMenuItem(
+                                  child: Text(
+                                    snap.get('employeeName').toString(),
+                                  ),
+                                  value: "${snap.get('employeeName').toString()}",
+
+                                )
+
+                            );
+
+                          }
+
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.person),
+                              SizedBox(width: 10.0,),
+                              DropdownButton(
+                                items: employeeItems,
+                                onChanged: (employeeValue){
+                                  print(employeeValue);
+                                  setState(() {
+                                    print(employeeValue);
+                                    _tEmployee = employeeValue;
+                                    print(_tEmployee);
+                                  });
+                                },
+                                value: _tEmployee,
+                                isExpanded: false,
+                                hint: new Text(task.taskEmployee ?? 'Choose Employee'),
+                              ),
+                            ],
+                          );
+                        }else{
+                          return Loading();
+                        }
+                      }
                   ),
 
 

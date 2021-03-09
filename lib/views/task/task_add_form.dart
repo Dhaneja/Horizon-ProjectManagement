@@ -16,7 +16,7 @@ class TaskAddForm extends StatefulWidget {
 
 class _TaskAddFormState extends State<TaskAddForm> {
 
-  var nowEmployee, currentEmployee;
+  var currentEmployee;
 
   String projectValue;
   _TaskAddFormState(this.projectValue);
@@ -56,31 +56,7 @@ class _TaskAddFormState extends State<TaskAddForm> {
             onChanged: (val) => setState(() => _tName = val),
           ),
 
-          SizedBox(height: 20.0),
-/*          DropdownButtonFormField(
-            decoration: textInputStyle.copyWith(hintText: 'Assign Employee'),
 
-          ),
-          */
-
-
-/*          DropdownButton(
-              items: _assignEmployee.map((value) => DropdownMenuItem(
-                  child: Text(
-                    value,
-
-                  ),
-                value: value,
-              )).toList(),
-              onChanged: (selectedEmployee){
-                setState(() {
-                  nowEmployee=selectedEmployee;
-                });
-              },
-            value: nowEmployee,
-            isExpanded: false,
-            hint: Text('Assign Employee'),
-          ),*/
           SizedBox(height: 20.0,),
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection('users').snapshots(),
@@ -128,11 +104,11 @@ class _TaskAddFormState extends State<TaskAddForm> {
               }
               }
           ),
-
+          SizedBox(height: 20.0,),
           RaisedButton(
               color: Colors.lightGreen,
               child: Text(
-                'Update',
+                'Add',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
