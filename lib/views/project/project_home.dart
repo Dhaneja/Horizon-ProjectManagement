@@ -6,6 +6,7 @@ import 'package:horizon/services/database_project.dart';
 import 'package:horizon/views/authenticate/sign_in.dart';
 import 'file:///F:/Esoft/Android/horizon/lib/views/project/employee_setting_form.dart';
 import 'package:horizon/views/project/project_add.dart';
+import 'package:horizon/views/project/project_add_form.dart';
 import 'package:horizon/views/project/project_list.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,23 @@ class ProjectHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void _showProjectAddPanel() {
+      showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.85 ,
+          decoration: new BoxDecoration(
+            color: Colors.brown[100],
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(25.0),
+              topRight: const Radius.circular(25.0),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+          child: ProjectAddForm(),
+        );
+      });
+    }
 
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
@@ -55,9 +73,10 @@ class ProjectHome extends StatelessWidget {
               icon: Icon(Icons.add),
               /*color: Colors.black,*/
               /*label: Text('Add'),*/
-              onPressed: () async {
-                Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProjectAdd()));
+              onPressed: () {
+/*                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProjectAdd()));*/
+                _showProjectAddPanel();
               }
                 ),
             IconButton(
