@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/services/project_service.dart';
 import 'package:horizon/shared/constants.dart';
@@ -13,11 +11,6 @@ import 'package:intl/intl.dart';
 
 class ProjectAdd extends StatefulWidget {
 
-
-
-  final Function toggleView;
-  ProjectAdd({this.toggleView});
-
   @override
   _ProjectAddState createState() => _ProjectAddState();
 }
@@ -27,33 +20,28 @@ class _ProjectAddState extends State<ProjectAdd> {
 
   DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
-/*  String _dateStart = '';
-  String _dateEnd = '';*/
-
-/*  DateTime selectedDate = DateTime.now();*/
-
   DateTime date = DateTime.now();
+  DateTime startDate;
+  DateTime endDate;
   String _displayStartDate;
-  String _displayEndDate = '';
-  String returnedDate;
-  String _startDate;
+  String _displayEndDate;
+  String passStartDate;
+  String passEndDate;
 
 
-/*  final DateTime now = DateTime.now();*/
-/*  final DateFormat formatter = DateFormat('dd-MM-yyyy');*/
-/*  String _dateTime = DateFormat('dd-MM-yyyy').format(now);*/
 
   bool loading = false;
-  final AuthService _authService = AuthService();
+
+
   final ProjectService _projectService = ProjectService();
+
   final _formKey = GlobalKey<FormState>();
 
   //Text field initialization
   String projectName = '';
-/*  String startDate = '';*/
-  String endDate = '';
   String projectCost = '';
-
+  String finalStartDate = '';
+  String finalEndDate = '';
   String projectClient = '';
   String projectStatus = 'On hold';
   String employeeId = FirebaseAuth.instance.currentUser.uid;
@@ -67,11 +55,9 @@ class _ProjectAddState extends State<ProjectAdd> {
   @override
   Widget build(BuildContext context) {
 
-
-    /*_dateStart =  dateFormat.format(DateTime.now());*/
-    /*_dateEnd =  dateFormat.format(DateTime.now());*/
+    //Pass the current time in required Format
     _displayStartDate = dateFormat.format(date);
-
+    _displayEndDate = dateFormat.format(date);
 
     return loading ? Loading() : Scaffold(
       appBar: AppBar(
@@ -86,267 +72,190 @@ class _ProjectAddState extends State<ProjectAdd> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-          child: Column(
+            child: Column(
 
-            children: <Widget>[
+              children: <Widget>[
 
-              SizedBox(height: 20.0,),
-              StreamBuilder<Employee>(
-                  stream: DatabaseService(eid: FirebaseAuth.instance.currentUser.uid).employeeData,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      Employee employee = snapshot.data;
+                SizedBox(height: 20.0,),
 
-                      projectManager = employee.eName;
+                //Stream Builder to fetch Employee Date (of Current User using Firebase uid)
+                StreamBuilder<Employee>(
+                    stream: DatabaseService(eid: FirebaseAuth.instance.currentUser.uid).employeeData,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        Employee employee = snapshot.data;
 
-                    }
-                    print(projectManager);
-                    return Text('Welcome, $projectManager', style: TextStyle(fontSize: 15.0),);
-                  }),
+                        projectManager = employee.eName;
 
-              SizedBox(height: 40.0,),
-              TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Project Name'),
-                onChanged: (projectNameInput){
-                  setState(() {
-                    projectName = projectNameInput;
-                  });
-                },
-                validator: (value){
-                  if(value.isEmpty){
-                    return 'Please Enter Project Name';
-                  }
-                  return null;
-                },
-              ),
-
-
-
-
-
-
-
-
-
-
-
-              SizedBox(height: 20.0,),
-
-
-              InkWell(
-
-                onTap: () async {
-
-                  //Stops keyboard from appearing
-                  FocusScope.of(context).requestFocus(new FocusNode());
-
-                  //Show Date Picker
-                  /*final selectedDate =*/
-                  await _selectedDateTime(context);
-                  _displayStartDate = dateFormat.format(date);
-
-
-/*                  if (selectedDate == null) return;
-
-                  print(selectedDate);
-
-                  setState(() {
-                    this.selectedDate = DateTime(
-                      selectedDate.year,
-                      selectedDate.month,
-                      selectedDate.day,
-                    );
-                  });*/
-
-                },
-
-                child: IgnorePointer(
-                  child: new TextFormField(
-                    decoration: textInputStyle.copyWith(hintText:/*'Start Date : $_displayStartDate'*/ 'Starting Date: $_displayStartDate'   , suffixIcon: Icon(Icons.calendar_today) ),
-
-/*                    validator: (String value){
-                      print('date:: ${date.toString()}');
-                      if (value.isEmpty){
-                        return 'Date Required';
                       }
-                      return null;
-                    },*/
-/*                    onSaved: (String val){
-                      strDate = val;
-                    },*/
-                  ),
+                      print(projectManager);
+                      return Text('Welcome, $projectManager', style: TextStyle(fontSize: 15.0),);
+                    }),
+
+
+                SizedBox(height: 40.0,),
+
+                //Text Field to Enter Project Name
+                TextFormField(
+                  decoration: textInputStyle.copyWith(hintText: 'Project Name'),
+                  onChanged: (projectNameInput){
+                    setState(() {
+                      projectName = projectNameInput;
+                    });
+                  },
+                  validator: (value){
+                    if(value.isEmpty){
+                      return 'Please Enter Project Name';
+                    }
+                    return null;
+                  },
                 ),
 
-              ),
 
+                SizedBox(height: 20.0,),
 
-/*              TextFormField(
+                //Square Area to include Text Field for Start Date
+                InkWell(
 
+                  onTap: () async {
 
+                    //Stops keyboard from appearing
+                    FocusScope.of(context).requestFocus(new FocusNode());
 
-                decoration: textInputStyle.copyWith(hintText: dateFormat.format(selectedDate) , suffixIcon: Icon(Icons.calendar_today) ),
+                    //Show Date Picker
+                    startDate = await _selectDateTime(context, startDate);
 
-                onTap: () async {
+                    //Pass the fetched Date in required Format
+                    finalStartDate = dateFormat.format(startDate);
+                    passStartDate = 'StartDate : $finalStartDate';
 
-                  FocusScope.of(context).requestFocus(new FocusNode());
+                  },
 
-                  final selectedDate = await _selectedDateTime(context);
-                  if(selectedDate == null ) return;
+                  //This will prevent from the pointer being displayed
+                  child: IgnorePointer(
 
-                  print (selectedDate);
+                    //Text Field
+                    child: new TextFormField(
+                      decoration: textInputStyle.copyWith(hintText: passStartDate  ?? 'Start Date: $_displayStartDate'   , suffixIcon: Icon(Icons.calendar_today) ),
 
-                  setState(() {
-                    this.selectedDate = DateTime(
-                      selectedDate.year,
-                      selectedDate.month,
-                      selectedDate.day,
-                    );
-                  });
-
-
-
-                },
-
-                onChanged: (nowSelectedDate){
-                  setState(() {
-                    selectedDate = dateFormat.parse(nowSelectedDate);
-                  });
-                },
-              ),*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*              SizedBox(height: 20.0,),
-
-              TextFormField(
-
-                decoration: textInputStyle.copyWith(hintText:'End Date : $_dateEnd', suffixIcon: Icon(Icons.calendar_today) ),
-
-                onTap: ()
-              ),*/
-
-
-
-              SizedBox(height: 20.0,),
-              TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Project Cost'),
-                onChanged: (projectCostInput){
-                  setState(() {
-                    projectCost = projectCostInput;
-                  });
-                },
-                validator: (value){
-                  if(value.isEmpty){
-                    return 'Please Enter Project Cost';
-                  }
-                  return null;
-                },
-              ),
-
-
-/*              TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Project Manager'),
-                onChanged: (projectManagerInput){
-                  setState(() {
-                    projectManager = projectManagerInput;
-                  });
-                },
-              ),*/
-
-
-
-              SizedBox(height: 20.0,),
-              TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Project Client'),
-                onChanged: (projectClientInput){
-                  setState(() {
-                    projectClient = projectClientInput;
-                  });
-                },
-                validator: (value){
-                  if(value.isEmpty){
-                    return 'Please Enter Project Client Name';
-                  }
-                  return null;
-                },
-              ),
-/*              SizedBox(height: 20.0,),
-              TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Project Status'),
-                onChanged: (projectStatusInput){
-                  setState(() {
-                    projectStatus = projectStatusInput;
-                  });
-                },
-              ),*/
-              SizedBox(height: 20.0,),
-              RaisedButton(
-                  color: Colors.orangeAccent[400],
-                  child: Text(
-                    'Create Project',
-                    style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  onPressed: () async {
-                    print(projectName);
-                    print(_displayStartDate);
-                    print(_displayStartDate);
-                    print(projectCost);
-                    print(projectManager);
-                    print(projectClient);
-                    print(projectStatus);
-                    print(employeeId);
+
+                ),
 
 
-                    if (_formKey.currentState.validate()){
-                      setState(() {
-                        loading = true;
-                      });
-                      dynamic result = await _projectService.createProject(projectName, _displayStartDate, _displayEndDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
-/*                      loading = false;*/
-                      if (result == null){
+                SizedBox(height: 20.0,),
+
+                //Square Area to include Text Field for End Date
+                InkWell(
+
+                  onTap: () async {
+
+                    //Stops keyboard from appearing
+                    FocusScope.of(context).requestFocus(new FocusNode());
+
+                    //Show Date Picker
+                     endDate = await _selectDateTime(context, endDate);
+
+                    //Pass the fetched Date in required Format
+                    finalEndDate = dateFormat.format(endDate);
+                    passEndDate = 'End Date : $finalEndDate';
+
+                    print('Returned Start Date $startDate');
+                    print('Returned String Start Date $_displayStartDate');
+                    print('Returned End Date $endDate');
+                    print('Returned String End Date $_displayEndDate');
+
+                  },
+
+                  child: IgnorePointer(
+                    child: new TextFormField(
+                      decoration: textInputStyle.copyWith(hintText: passEndDate  ?? 'Start Date: $_displayEndDate'   , suffixIcon: Icon(Icons.calendar_today) ),
+
+                    ),
+                  ),
+
+                ),
+
+
+                SizedBox(height: 20.0,),
+
+                //Text Field to Enter Project Cost
+                TextFormField(
+                  decoration: textInputStyle.copyWith(hintText: 'Project Cost'),
+                  onChanged: (projectCostInput){
+                    setState(() {
+                      projectCost = projectCostInput;
+                    });
+                  },
+                  validator: (value){
+                    if(value.isEmpty){
+                      return 'Please Enter Project Cost';
+                    }
+                    return null;
+                  },
+                ),
+
+
+                SizedBox(height: 20.0,),
+
+                //Text Field to Enter Project Client
+                TextFormField(
+                  decoration: textInputStyle.copyWith(hintText: 'Project Client'),
+                  onChanged: (projectClientInput){
+                    setState(() {
+                      projectClient = projectClientInput;
+                    });
+                  },
+                  validator: (value){
+                    if(value.isEmpty){
+                      return 'Please Enter Project Client Name';
+                    }
+                    return null;
+                  },
+                ),
+
+
+                SizedBox(height: 20.0,),
+
+                //Button to Update the Entered Data using Project Service
+                RaisedButton(
+                    color: Colors.orangeAccent[400],
+                    child: Text(
+                      'Create Project',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () async {
+
+                      if (_formKey.currentState.validate()){
                         setState(() {
-/*                          error = 'Please enter all details';*/
-                          loading = false;
+                          loading = true;
                         });
-                      }else
-                      {
-                        loading = false;
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ProjectHome())
-                        );
-
+                        dynamic result = await _projectService.createProject(projectName, finalStartDate, finalEndDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
+                        if (result == null){
+                          setState(() {
+                            loading = false;
+                          });
+                        }else
+                        {
+                          loading = false;
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ProjectHome())
+                          );
+                        }
                       }
                     }
-
-                  }
-              ),
-              SizedBox(height:12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Future<void> _selectedDateTime(BuildContext context) async{
-
-    final now = DateTime.now();
+  //Method to select Date using DateTimePicker
+  Future<DateTime> _selectDateTime(BuildContext context, DateTime datePicked) async{
     final DateTime picked = await showDatePicker(
 
       context: context,
@@ -355,12 +264,13 @@ class _ProjectAddState extends State<ProjectAdd> {
       lastDate: DateTime(2050),
     );
 
-    if (picked != null && picked != date){
+    if (picked != null && picked != datePicked){
       print(picked);
       setState(() {
-        date = picked;
+        datePicked = picked;
       });
     }
+    return datePicked;
 
   }
 
