@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:horizon/shared/loading.dart';
 import 'package:horizon/views/employee/employee_home.dart';
 import 'package:horizon/views/home/admin_home.dart';
-import 'package:horizon/views/project/project_home.dart';
+import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
 import 'package:horizon/views/task/task_home.dart';
 
 class SecondWrapper extends StatelessWidget {

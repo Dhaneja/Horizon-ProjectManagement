@@ -10,13 +10,31 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String taskValue;
+    String taskStat = task.taskStatus;
+
+    Color getColor(taskStat){
+      if (taskStat == 'Ongoing'){
+        /*projectColor = 'Colors.yellow[400]';*/
+        return Colors.yellow[200];
+      }else if (taskStat == 'Finished'){
+        /*projectColor = 'Colors.green[400]';*/
+        return Colors.green[200];
+      }else if (taskStat == 'Cancelled'){
+        /*projectColor = 'Colors.brown[400]';*/
+        return Colors.brown[200];
+      }else if (taskStat == 'On hold'){
+        /*projectColor = 'Colors.red[400]';*/
+        return Colors.red[200];
+      }
+      return Colors.grey[200];
+    }
 
     void _showTaskPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
           height: MediaQuery.of(context).size.height * 0.65 ,
           decoration: new BoxDecoration(
-            color: Colors.brown[100],
+            color: Colors.grey[200],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),
@@ -36,22 +54,14 @@ class TaskTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundColor: Colors.brown[100],
+            backgroundColor: getColor(taskStat),
           ),
           title: Text(task.taskName),
           subtitle: Text('Assigned to:  ${task.taskEmployee} '),
           onTap: () {
             taskValue = task.taskId.toString();
             print(taskValue);
-            /*        FirebaseFirestore.instance.collection('project').doc(selectedDoc)*/
-/*           projectRef.get().then((snapshot) {
-             snapshot.docs.forEach((doc) {
-               tempVal = (doc.data()['B5Eu6fj70iGdoSX27E0k']);
-               });
-           });*/
-            //print(FirebaseFirestore.instance.collection('projects').doc().data['projectId']);
-/*            print(tempVal);
-            print(projectValue)*/;
+
             _showTaskPanel();
           },
         ),

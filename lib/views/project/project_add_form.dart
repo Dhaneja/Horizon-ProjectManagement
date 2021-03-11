@@ -5,7 +5,7 @@ import 'package:horizon/services/database.dart';
 import 'package:horizon/services/project_service.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
-import 'package:horizon/views/project/project_home.dart';
+import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
 import 'package:intl/intl.dart';
 
 

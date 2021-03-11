@@ -12,6 +12,27 @@ class EmployeeTile extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
       String empValue;
+      String empType = employee.eType;
+
+
+      //Select Employee Image According to Employee Type
+      AssetImage getImage(empType){
+        if (empType == 'System Admin'){
+
+          return AssetImage('assets/admin1.png');
+
+        }else if (empType == 'Project Manager'){
+
+          return AssetImage('assets/pm1.png');
+
+        }else if (empType == 'Developer'){
+
+          return AssetImage('assets/dev2.png');
+
+        }
+
+        return AssetImage('assets/pm.png');
+      }
 
 
       void _showEmployeePanel() {
@@ -19,7 +40,7 @@ class EmployeeTile extends StatelessWidget {
           return Container(
             height: MediaQuery.of(context).size.height * 0.85 ,
             decoration: new BoxDecoration(
-              color: Colors.brown[100],
+              color: Colors.grey[100],
               borderRadius: new BorderRadius.only(
                 topLeft: const Radius.circular(25.0),
                 topRight: const Radius.circular(25.0),
@@ -38,7 +59,8 @@ class EmployeeTile extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 25.0,
-              backgroundColor: Colors.brown[100],
+              backgroundColor: Colors.grey[100],
+              backgroundImage: getImage(empType),
             ),
             title: Text(employee.eName),
             subtitle: Text(employee.eType),

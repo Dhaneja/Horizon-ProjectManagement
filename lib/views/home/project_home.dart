@@ -4,7 +4,7 @@ import 'package:horizon/model/project.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_project.dart';
 import 'package:horizon/views/authenticate/sign_in.dart';
-import 'file:///F:/Esoft/Android/horizon/lib/views/project/employee_setting_form.dart';
+import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:horizon/views/project/project_add.dart';
 import 'package:horizon/views/project/project_add_form.dart';
 import 'package:horizon/views/project/project_list.dart';
@@ -22,7 +22,7 @@ class ProjectHome extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height * 0.85 ,
           decoration: new BoxDecoration(
-            color: Colors.brown[100],
+            color: Colors.grey[100],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),
@@ -39,7 +39,7 @@ class ProjectHome extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height * 0.65 ,
           decoration: new BoxDecoration(
-            color: Colors.brown[100],
+            color: Colors.grey[100],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),
@@ -55,10 +55,10 @@ class ProjectHome extends StatelessWidget {
     return StreamProvider<List<Project>>.value(
       value: ProjectDatabaseService().horizonProjects,
       child: Scaffold(
-        backgroundColor: Colors.brown[50],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text('Projects'),
-          backgroundColor: Colors.brown[400],
+          backgroundColor: Colors.blueAccent,
           elevation: 0.0,
           actions: <Widget>[
           FlatButton.icon(

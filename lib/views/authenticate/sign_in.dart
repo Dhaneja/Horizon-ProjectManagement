@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
-import 'package:horizon/services/user_access.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 import 'package:horizon/views/home/admin_home.dart';
 import 'package:horizon/views/home/home.dart';
-import 'package:horizon/views/project/project_home.dart';
+import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
 import 'package:horizon/views/task/task_home.dart';
 
 class SignIn extends StatefulWidget {
