@@ -41,7 +41,7 @@ class ProjectTile extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height * 0.95 ,
           decoration: new BoxDecoration(
-            color: Colors.white,
+            color: Colors.grey[200],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),

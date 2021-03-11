@@ -115,7 +115,7 @@ class _TaskFormState extends State<TaskForm> {
 
 
                   RaisedButton(
-                      color: Colors.lightGreen,
+                      color: Colors.blue[400],
                       child: Text(
                         'Update',
                         style: TextStyle(color: Colors.white),

@@ -37,7 +37,7 @@ class ProjectHome extends StatelessWidget {
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
-          height: MediaQuery.of(context).size.height * 0.65 ,
+          height: MediaQuery.of(context).size.height * 0.75,
           decoration: new BoxDecoration(
             color: Colors.grey[100],
             borderRadius: new BorderRadius.only(
@@ -53,22 +53,23 @@ class ProjectHome extends StatelessWidget {
 
 
     return StreamProvider<List<Project>>.value(
+
       value: ProjectDatabaseService().horizonProjects,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text('Projects'),
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.blue[400],
           elevation: 0.0,
           actions: <Widget>[
-          FlatButton.icon(
+/*          FlatButton.icon(
             icon: Icon(Icons.person),
-            label: Text('logout'),
+            label: Text('Logout'),
             onPressed: () async {
               await _authService.signOut();
               return SignIn();
           }
-        ),
+        ),*/
             IconButton(
               icon: Icon(Icons.add),
               /*color: Colors.black,*/

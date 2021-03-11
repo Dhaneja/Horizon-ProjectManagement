@@ -6,9 +6,11 @@ import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
+import 'package:horizon/views/authenticate/sign_in.dart';
 
 
 class EmployeeForm extends StatefulWidget {
+
 
 
   @override
@@ -16,6 +18,8 @@ class EmployeeForm extends StatefulWidget {
 }
 
 class _EmployeeFormState extends State<EmployeeForm> {
+
+  final AuthService _authService = AuthService();
 
 
   final _formKey = GlobalKey<FormState>();
@@ -129,6 +133,19 @@ class _EmployeeFormState extends State<EmployeeForm> {
                       onPressed: () async {
                         await AuthService().passwordReset(currentEmployeeEmail);
                         print(employee.eEmail);
+                      }
+                  ),
+                  SizedBox(height: 10.0),
+                  RaisedButton(
+                      color: Colors.red,
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        await _authService.signOut();
+                        Navigator.pop(context);
+                        return SignIn();
                       }
                   ),
                 ],

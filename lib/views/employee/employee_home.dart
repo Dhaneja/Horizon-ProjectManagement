@@ -17,7 +17,7 @@ class EmployeeHome extends StatelessWidget {
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
-          height: MediaQuery.of(context).size.height * 0.65 ,
+          height: MediaQuery.of(context).size.height * 0.75 ,
           decoration: new BoxDecoration(
             color: Colors.grey[200],
             borderRadius: new BorderRadius.only(
@@ -41,14 +41,14 @@ class EmployeeHome extends StatelessWidget {
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
-              FlatButton.icon(
+/*              FlatButton.icon(
                   icon: Icon(Icons.person),
                   label: Text('Logout'),textColor: Colors.white,
                   onPressed: () async {
                     await _authService.signOut();
                     return SignIn();
                   }
-              ),
+              ),*/
               IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: ()  {

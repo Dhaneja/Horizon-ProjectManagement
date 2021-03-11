@@ -1,13 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
-import 'package:horizon/views/home/admin_home.dart';
-import 'package:horizon/views/home/home.dart';
-import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
-import 'package:horizon/views/task/task_home.dart';
+
 
 class SignIn extends StatefulWidget {
 
@@ -31,21 +26,17 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+
     return loading ? Loading() : Scaffold(
+
+
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
         elevation: 0.0,
-        title: Text('Welcome to Horizon pvt ltd'),
-/*        actions: <Widget>[
-          FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('Register'),
-            onPressed: () {
-              widget.toggleView();
-            },
-          )
-        ],*/
+        title: Text('Login'),
+        actions: <Widget>[
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 50.0),
@@ -53,8 +44,23 @@ class _SignInState extends State<SignIn> {
           key: _formKey,
           child:SingleChildScrollView(
           child: Column(
+
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+
             children: <Widget>[
+
               SizedBox(height: 20.0,),
+
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Image.asset('assets/horizon.png', height: 100, width: 100,),
+              ),
+
+              SizedBox(height: 5.0,),
+              Text('Horizon Pvt Ltd', style: TextStyle(fontSize: 20.0),),
+
+              SizedBox(height: 40.0,),
               TextFormField(
                 decoration: textInputStyle.copyWith(hintText: 'Email Address'),
                 validator: (emailValue) => emailValue.isEmpty ? 'Email cannot be empty' : null,
@@ -74,7 +80,7 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0,),
               RaisedButton(
-                color: Colors.lightBlue,
+                color: Colors.blue[400],
                 child: Text(
                   'Sign in',
                   style: TextStyle(color: Colors.white),

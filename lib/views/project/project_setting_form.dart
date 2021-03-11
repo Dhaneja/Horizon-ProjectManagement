@@ -59,7 +59,7 @@ class _ProjectFormState extends State<ProjectForm> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Project',
+                  'Project Details',
                   style: TextStyle(fontSize: 18.0),
                 ),
                 SizedBox(height: 20.0),
@@ -121,10 +121,10 @@ class _ProjectFormState extends State<ProjectForm> {
                   }).toList(),
                   onChanged: (val) => setState(() => _pStatus = val),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 20.0),
 
                 RaisedButton(
-                    color: Colors.lightGreen,
+                    color: Colors.blue[400],
                     child: Text(
                       'Update',
                       style: TextStyle(color: Colors.white),

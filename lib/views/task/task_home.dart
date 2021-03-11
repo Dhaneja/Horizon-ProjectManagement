@@ -25,7 +25,7 @@ class TaskHome extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height * 0.65 ,
           decoration: new BoxDecoration(
-            color: Colors.brown[100],
+            color: Colors.grey[200],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),
@@ -41,10 +41,10 @@ class TaskHome extends StatelessWidget {
     return StreamProvider<List<Task>>.value(
         value: ProjectDatabaseService(pid: projectIdValue).horizonTasks,
       child: Scaffold(
-        backgroundColor: Colors.brown[50],
+        backgroundColor: Colors.blue[400],
         appBar: AppBar(
             title: Text('Tasks'),
-            backgroundColor: Colors.brown[400],
+            backgroundColor: Colors.grey[200],
             elevation: 0.0,
             actions: <Widget>[
               IconButton(

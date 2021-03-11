@@ -79,7 +79,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                       }
                       print(projectManager);
-                      return Text('Welcome, $projectManager', style: TextStyle(fontSize: 15.0),);
+                      return Text('Welcome, $projectManager', style: TextStyle(fontSize: 20.0),);
                     }),
 
 
@@ -210,7 +210,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 //Button to Update the Entered Data using Project Service
                 RaisedButton(
-                    color: Colors.orangeAccent[400],
+                    color: Colors.blue[400],
                     child: Text(
                       'Create Project',
                       style: TextStyle(color: Colors.white),

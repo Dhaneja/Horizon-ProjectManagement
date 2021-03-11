@@ -41,7 +41,7 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
                 Text('Add Employee', style: TextStyle(fontSize: 18.0),),
 
 
-                SizedBox(height: 30.0,),
+                SizedBox(height: 20.0,),
 
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Employee Name'),
@@ -96,7 +96,7 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
                 RaisedButton(
                     color: Colors.lightBlueAccent,
                     child: Text(
-                      'Register',
+                      'Add',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
@@ -121,7 +121,7 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
                       }
                     }
                 ),
-                SizedBox(height:12.0),
+                SizedBox(height:10.0),
                 Text(
                   error,
                   style: TextStyle(color: Colors.red, fontSize: 14.0),

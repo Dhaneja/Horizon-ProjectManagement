@@ -111,7 +111,7 @@ class _TaskAddFormState extends State<TaskAddForm> {
           ),
           SizedBox(height: 20.0,),
           RaisedButton(
-              color: Colors.lightGreen,
+              color: Colors.blue[400],
               child: Text(
                 'Add',
                 style: TextStyle(color: Colors.white),

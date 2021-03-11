@@ -38,7 +38,7 @@ class EmployeeTile extends StatelessWidget {
       void _showEmployeePanel() {
         showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
           return Container(
-            height: MediaQuery.of(context).size.height * 0.85 ,
+            height: MediaQuery.of(context).size.height * 0.75 ,
             decoration: new BoxDecoration(
               color: Colors.grey[100],
               borderRadius: new BorderRadius.only(
