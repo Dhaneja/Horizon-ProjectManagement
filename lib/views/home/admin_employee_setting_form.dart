@@ -95,7 +95,7 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
                   SizedBox(height: 10.0),
 
                   RaisedButton(
-                      color: Colors.lightGreen,
+                      color: Colors.lightBlueAccent,
                       child: Text(
                         'Update',
                         style: TextStyle(color: Colors.white),

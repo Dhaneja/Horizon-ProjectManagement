@@ -19,7 +19,7 @@ class EmployeeHome extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height * 0.65 ,
           decoration: new BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.grey[200],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),
@@ -35,7 +35,7 @@ class EmployeeHome extends StatelessWidget {
     return StreamProvider<List<Task>>.value(
       value: TaskDatabaseService().employeeTask,
       child: Scaffold(
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
             title: Text('Tasks'),
             backgroundColor: Colors.blue[400],
@@ -43,7 +43,7 @@ class EmployeeHome extends StatelessWidget {
             actions: <Widget>[
               FlatButton.icon(
                   icon: Icon(Icons.person),
-                  label: Text('logout'),
+                  label: Text('Logout'),textColor: Colors.white,
                   onPressed: () async {
                     await _authService.signOut();
                     return SignIn();

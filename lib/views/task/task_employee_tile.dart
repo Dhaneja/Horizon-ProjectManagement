@@ -10,13 +10,32 @@ class TaskEmployeeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String taskIdValue;
+    String taskStat = taskHomeList.taskStatus;
+
+    Color getColor(taskStat){
+      if (taskStat == 'Ongoing'){
+        /*projectColor = 'Colors.yellow[400]';*/
+        return Colors.yellow[200];
+      }else if (taskStat == 'Finished'){
+        /*projectColor = 'Colors.green[400]';*/
+        return Colors.green[200];
+      }else if (taskStat == 'Cancelled'){
+        /*projectColor = 'Colors.brown[400]';*/
+        return Colors.brown[200];
+      }else if (taskStat == 'On hold'){
+        /*projectColor = 'Colors.red[400]';*/
+        return Colors.red[200];
+      }
+      return Colors.grey[200];
+    }
+
 
     void _showEmployeeTaskPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
           height: MediaQuery.of(context).size.height * 0.65 ,
           decoration: new BoxDecoration(
-            color: Colors.brown[100],
+            color: Colors.grey[200],
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(25.0),
               topRight: const Radius.circular(25.0),
@@ -36,7 +55,7 @@ class TaskEmployeeTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundColor: Colors.brown[100],
+            backgroundColor: getColor(taskStat),
           ),
           title: Text(taskHomeList.taskName),
           subtitle: Text('For  ${taskHomeList.taskProjectName} '),

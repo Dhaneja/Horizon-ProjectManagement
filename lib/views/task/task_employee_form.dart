@@ -73,7 +73,7 @@ class _EmployeeTaskFormState extends State<EmployeeTaskForm> {
 
                   SizedBox(height: 40.0,),
                   RaisedButton(
-                      color: Colors.lightGreen,
+                      color: Colors.lightBlueAccent,
                       child: Text(
                         'Update',
                         style: TextStyle(color: Colors.white),
