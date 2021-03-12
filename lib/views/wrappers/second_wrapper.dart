@@ -11,30 +11,46 @@ class SecondWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    //StreamBuilder to access the stream to fetch values
     return StreamBuilder<QuerySnapshot>(
+
+      //Get data from instant stream
       stream: FirebaseFirestore.instance.collection('users').where('employeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+
         if(snapshot.hasError){
+
           return Loading();
+
         }switch(snapshot.connectionState){
+
           case ConnectionState.waiting: return Loading();
+
           default:
+
             return checkType(snapshot.data);
         }
       }
     );
-
   }
 
+  //Check user type and decide on the HomePage using FireStore Query
   checkType(QuerySnapshot snapshot){
+
     if (snapshot.docs[0].data()['employeeType'] == 'System Admin'){
+
       return AdminHome();
+
     }else if (snapshot.docs[0].data()['employeeType'] == 'Project Manager'){
+
       return ProjectHome();
+
     }
+
     else if (snapshot.docs[0].data()['employeeType'] == 'Developer'){
+
       return EmployeeHome();
+
     }
   }
-
 }

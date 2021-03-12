@@ -12,8 +12,10 @@ class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
 
+    //Provider
     final horizonTasks = Provider.of<List<Task>>(context) ?? [];
 
+    //Pass the data to a Tile
     return ListView.builder(
         itemBuilder: (context, index){
           return TaskTile(task: horizonTasks[index]);

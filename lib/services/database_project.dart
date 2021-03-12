@@ -5,19 +5,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/model/task.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 
 class ProjectDatabaseService{
 
+  //Constructor
   final String pid;
   ProjectDatabaseService({this.pid});
 
-  //Collection Reference
+  //Projects collection Reference
   final CollectionReference projectCollection = FirebaseFirestore.instance.collection('projects');
 
+  //Tasks collection Reference
   final CollectionReference taskCollection = FirebaseFirestore.instance.collection('tasks');
 
-
+  //Add Project Data
   Future addProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId, String projectHoldReason) async {
     return await projectCollection.add({
       'projectId' : projectCollection.doc().id,
@@ -35,7 +37,7 @@ class ProjectDatabaseService{
   }
 
 
-
+  //Update Project Data
   Future updateProjectData( String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId, String projectHoldReason) async {
 
     try {
@@ -61,7 +63,7 @@ class ProjectDatabaseService{
   }
 
 
-  //project list from snapshot
+  //Project list from snapshot
   List<Project> _projectListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return Project(
@@ -79,7 +81,7 @@ class ProjectDatabaseService{
     }).toList();
   }
 
-  //project list from snapshot
+  //Task list from snapshot
   List<Task> _taskListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return Task(
@@ -93,21 +95,7 @@ class ProjectDatabaseService{
   }
 
 
-
-
-  updateProject(selectedProject, newValues){
-    FirebaseFirestore.instance
-        .collection('projects')
-        .doc(selectedProject)
-        .update(newValues)
-        .catchError((error){
-      print(error);
-    });
-  }
-
-
-
-
+  //Project Data from Snapshot
   Project _projectDataFromSnapshot(QuerySnapshot snapshot) {
 
       return Project(
@@ -127,40 +115,25 @@ class ProjectDatabaseService{
     }
 
 
-
-/*    return Project(
-
-
-      pid: snapshot.docs.data()['projectId'],
-      pName: snapshot.docs[pid].data()['projectName'],
-      sDate: snapshot.data()['startDate'],
-      eDate: snapshot.data()['endDate'],
-      pCost: snapshot.data()['projectCost'],
-      pManager: snapshot.data()['projectManager'],
-      pClient: snapshot.data()['projectClient'],
-      pStatus: snapshot.data()['projectStatus'],
-      empId: snapshot.data()['employeeId']
-    );*/
-
-
-
-  //get project stream
+  //Get projects into a stream
   Stream<List<Project>> get horizonProjects {
     return projectCollection.where('employeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots()
         .map(_projectListFromSnapshot);
   }
 
+  //Get task list for a project into a stream
   Stream<List<Task>> get horizonTasks {
     return taskCollection.where('taskProjectId', isEqualTo: pid).snapshots()
         .map(_taskListFromSnapshot);
   }
 
-  //get project doc stream
+  //Get project data into a stream
    Stream<Project> get projectData {
     return  projectCollection.where('projectId', isEqualTo: pid).snapshots()
         .map((_projectDataFromSnapshot));
   }
 
+  //Get Project list which are on hold to a stream
   Stream<List<Project>> get holdProjects {
     return projectCollection.where('projectStatus', isEqualTo: 'On hold').snapshots()
         .map(_projectListFromSnapshot);

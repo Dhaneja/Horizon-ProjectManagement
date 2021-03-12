@@ -8,18 +8,15 @@ import 'package:provider/provider.dart';
 
 class TaskHome extends StatelessWidget {
 
+  //Constructor
   TaskHome(this.projectIdValue, this.projectNameValue);
   final String projectIdValue, projectNameValue;
-
-
-  /*
-  String projectValue;
-  ProjectForm({this.projectValue});*/
 
 
   @override
   Widget build(BuildContext context) {
 
+    //Popup the modalBottomSheet for Task Add Form
     void _showTaskAddPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -37,8 +34,10 @@ class TaskHome extends StatelessWidget {
       });
     }
 
-
+    //Stream Provider to List the Tasks using horizonTasks
     return StreamProvider<List<Task>>.value(
+
+        //Get data from horizonTasks stream in ProjectDatabaseService
         value: ProjectDatabaseService(pid: projectIdValue).horizonTasks,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -47,12 +46,14 @@ class TaskHome extends StatelessWidget {
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
+
               IconButton(
                   icon: Icon(Icons.add),
-                  /*color: Colors.black,*/
-                  /*label: Text('Add'),*/
                   onPressed: () {
+
+                    //Display Modal Bottom sheet to add task
                     _showTaskAddPanel();
+
                   }
               ),
             ]

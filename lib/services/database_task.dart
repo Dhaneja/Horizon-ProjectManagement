@@ -8,22 +8,11 @@ class TaskDatabaseService{
   final String tid;
   TaskDatabaseService({this.tid});
 
+  //Task Collection Reference
   final CollectionReference taskCollection = FirebaseFirestore.instance.collection('tasks');
 
 
-/*  Future updateTaskData(String taskId, String taskName, String taskEmployee, String taskStatus) async {
-
-    return await taskCollection.doc(pid).set({
-
-      'taskId' : taskId,
-      'taskName': taskName,
-      'taskEmployee' : taskEmployee,
-      'taskStatus' : taskStatus,
-
-    });
-
-  }*/
-
+  //Add Task Data
   Future addTaskData(String taskName, String taskStatus, String taskEmployee, String taskEmployeeId, String taskProjectId, String taskProjectName) async {
 
     return await taskCollection.add({
@@ -39,6 +28,7 @@ class TaskDatabaseService{
     });
   }
 
+  //Update Task Data
   Future updateTaskData( String taskId, String taskName, String taskStatus, String taskEmployee, String taskEmployeeId, String taskProjectId, String taskProjectName) async {
 
     try {
@@ -60,6 +50,7 @@ class TaskDatabaseService{
 
   }
 
+  //Task data from snapshot
   Task _taskDataFromSnapshot(QuerySnapshot snapshot) {
 /*    return snapshot.docs.forEach((doc) {*/
     return Task(
@@ -73,6 +64,7 @@ class TaskDatabaseService{
 
     );
   }
+
 
   //Task list from Snapshot
   List<Task> _taskListFromSnapshot(QuerySnapshot snapshot){
@@ -91,16 +83,14 @@ class TaskDatabaseService{
   }
 
   
-  //Stream for Employee Homepage
+  //Get Task List Employee wise into a Stream for Employee Homepage
   Stream<List<Task>> get employeeTask {
     return taskCollection.where('taskEmployeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots()
         .map(_taskListFromSnapshot);
   }
 
 
-
-  
-  //Stream to update task
+  //Get task data into a stream
   Stream<Task> get taskData {
     return  taskCollection.where('taskId', isEqualTo: tid).snapshots()
         .map((_taskDataFromSnapshot));

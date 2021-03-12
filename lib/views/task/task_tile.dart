@@ -12,23 +12,29 @@ class TaskTile extends StatelessWidget {
     String taskValue;
     String taskStat = task.taskStatus;
 
+    //Select Color according to task Status
     Color getColor(taskStat){
       if (taskStat == 'Ongoing'){
-        /*projectColor = 'Colors.yellow[400]';*/
+
         return Colors.yellow[200];
+
       }else if (taskStat == 'Finished'){
-        /*projectColor = 'Colors.green[400]';*/
+
         return Colors.green[200];
+
       }else if (taskStat == 'Cancelled'){
-        /*projectColor = 'Colors.brown[400]';*/
+
         return Colors.brown[200];
+
       }else if (taskStat == 'On hold'){
-        /*projectColor = 'Colors.red[400]';*/
+
         return Colors.red[200];
+
       }
       return Colors.grey[200];
     }
 
+    //Popup the modalBottom
     void _showTaskPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -60,9 +66,10 @@ class TaskTile extends StatelessWidget {
           subtitle: Text('Assigned to:  ${task.taskEmployee} '),
           onTap: () {
             taskValue = task.taskId.toString();
-            print(taskValue);
 
+            //Show Task Details Panel
             _showTaskPanel();
+
           },
         ),
       ),

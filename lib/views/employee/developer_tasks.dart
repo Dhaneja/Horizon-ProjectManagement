@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/task.dart';
-import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
-import 'package:horizon/services/database_task.dart';
-import 'package:horizon/views/authenticate/sign_in.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:horizon/views/task/task_employee_list.dart';
 import 'package:provider/provider.dart';
 
 class DeveloperTask extends StatelessWidget {
-
-  final AuthService _authService = AuthService();
 
   DeveloperTask(this.empValue, this.empName);
   final String empValue, empName;
@@ -18,7 +13,7 @@ class DeveloperTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
+    //Popup the modalBottomSheet for Employee Form
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -37,24 +32,23 @@ class DeveloperTask extends StatelessWidget {
     }
 
 
+    //Stream Provider to List the Tasks using TaskHomeList
     return StreamProvider<List<Task>>.value(
 
+      //DatabaseService used to access the stream adminEmployeeTask
       value: DatabaseService(eid: empValue).adminEmployeeTask,
       child: Scaffold(
+
         backgroundColor: Colors.grey[200],
+
         appBar: AppBar(
+
             title: Text('Tasks of $empName'),
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
-/*              FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text('Logout'),textColor: Colors.white,
-                  onPressed: () async {
-                    await _authService.signOut();
-                    return SignIn();
-                  }
-              ),*/
+
+              //Icon to display the Current Employee details panel
               IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: ()  {
@@ -63,7 +57,9 @@ class DeveloperTask extends StatelessWidget {
               ),
             ]
         ),
+
         body: TaskHomeList(),
+
       ),
     );
   }

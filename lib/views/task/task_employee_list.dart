@@ -12,8 +12,10 @@ class _TaskHomeListState extends State<TaskHomeList> {
   @override
   Widget build(BuildContext context) {
 
+    //Provider
     final taskHome = Provider.of<List<Task>>(context) ?? [];
 
+    //Pass data to a Tile
     return ListView.builder(
         itemBuilder: (context, index){
           return TaskEmployeeTile(taskHomeList: taskHome[index]);

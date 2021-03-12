@@ -8,8 +8,7 @@ import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
 
 class AuthService{
 
-
-
+  //Firebase Auth Instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //create Employee object based on FirebaseUser
@@ -25,26 +24,7 @@ class AuthService{
   }
 
 
-  //Sign in Anonymously
-
-  Future signInAnonymous() async {
-
-    try{
-
-      UserCredential credential = await _auth.signInAnonymously();
-      User user = credential.user;
-      return _userfromFirebaseUser(user);
-
-    }catch(error){
-
-      print(error.toString());
-      return null;
-
-    }
-
-  }
-
-  //Sign in with Email & Password
+  //Sign in with Email & Password using Firebase
   Future signInWithEmailAndPassword(String email, String password) async{
     try{
 
@@ -58,7 +38,6 @@ class AuthService{
       return null;
     }
   }
-
 
 
   //Register with Email & Password
@@ -87,8 +66,6 @@ class AuthService{
       print(error);
     }
   }
-
-
 
 
   //Sign Out

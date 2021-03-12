@@ -8,13 +8,16 @@ class DatabaseService {
   final String eid;
   DatabaseService({this.eid});
 
-  //Collection Reference
+  //Users Collection Reference
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
 
+  //Tasks Collection Reference
   final CollectionReference taskCollection = FirebaseFirestore.instance.collection('tasks');
 
+  //Projects Collection Reference
   final CollectionReference projectCollection = FirebaseFirestore.instance.collection('projects');
 
+  //Update Employee Data Function
   Future updateUserData(String employeeId,String employeeName, String employeeEmail, String employeePassword, String employeeType) async {
 
     return await userCollection.doc(eid).set({
@@ -28,7 +31,7 @@ class DatabaseService {
   }
 
 
-  //employee list from snapshot
+  //Employee list from snapshot
   List<Employee> _employeeListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return Employee(
@@ -69,7 +72,7 @@ class DatabaseService {
   }
 
 
-  //project list from snapshot
+  //Project list from snapshot
   List<Project> _projectPMListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return Project(
@@ -86,30 +89,31 @@ class DatabaseService {
     }).toList();
   }
 
-
-  //get user stream
-  Stream<List<Employee>> get horizonUsers {
-    return userCollection.snapshots()
-        .map(_employeeListFromSnapshot);
-  }
-
-  //get user doc stream
-  Stream<Employee> get employeeData{
-    return userCollection.doc(eid).snapshots()
-        .map((_employeeDataFromSnapshot));
-  }
-
   //Delete User with Auth
   Future deleteUser() {
     return userCollection.doc(eid).delete();
   }
 
-  //Get Task according to EmployeeId
+
+  //Get user stream
+  Stream<List<Employee>> get horizonUsers {
+    return userCollection.snapshots()
+        .map(_employeeListFromSnapshot);
+  }
+
+  //Get user doc stream
+  Stream<Employee> get employeeData{
+    return userCollection.doc(eid).snapshots()
+        .map((_employeeDataFromSnapshot));
+  }
+
+  //Get Task according to EmployeeId to a stream
   Stream<List<Task>> get adminEmployeeTask {
     return taskCollection.where('taskEmployeeId', isEqualTo: eid).snapshots()
         .map(_taskDevListFromSnapshot);
   }
 
+  //Get Projects employee wise to a stream
   Stream<List<Project>> get adminProjectManagerProject {
     return projectCollection.where('employeeId', isEqualTo: eid).snapshots()
         .map(_projectPMListFromSnapshot);

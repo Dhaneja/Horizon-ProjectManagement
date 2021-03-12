@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 import 'package:horizon/views/home/admin_home.dart';
@@ -15,8 +15,12 @@ class EmployeeAddForm extends StatefulWidget {
 
 class _EmployeeAddState extends State<EmployeeAddForm> {
 
+  //Firebase Auth Instance
   final AuthService _authService = AuthService();
+
+  //FormKey Instance
   final _formKey = GlobalKey<FormState>();
+
   bool loading = false;
 
   //Text field initialization
@@ -26,6 +30,7 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
   String type = '';
   String error = '';
 
+  //Dropdown List initialization
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
 
   @override
@@ -42,28 +47,29 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
 
 
                 SizedBox(height: 20.0,),
-
+                //Input Employee Name
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                   validator: (nameValue) => nameValue.isEmpty ? 'Name cannot be empty' : null,
                   onChanged: (nameValue){
                     setState(() => name = nameValue);
-
                   },
                 ),
 
+
                 SizedBox(height: 20.0,),
+                //Input Email Address
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Email Address',labelText: 'Email Address'),
                   validator: (emailValue) => emailValue.isEmpty ? 'Email cannot be empty' : null,
                   onChanged: (emailValue){
                     setState(() => email = emailValue);
-
                   },
                 ),
 
 
                 SizedBox(height: 20.0),
+                //Input Password
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Password', labelText: 'Password'),
                   obscureText: true,
@@ -75,6 +81,7 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
 
 
                 SizedBox(height: 20.0,),
+                //Dropdown Box to select employee type
                 DropdownButtonFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Employee Type', labelText: 'Employee Type'),
                   validator: (typeValue) => typeValue.isEmpty ? 'Employee Type cannot be empty' : null,
@@ -87,7 +94,9 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
                   onChanged: (typeValue) => setState(() => type = typeValue),
                 ),
 
+
                 SizedBox(height: 20.0,),
+                //Create user using AuthService and Firebase
                 RaisedButton(
                     color: Colors.lightBlueAccent,
                     child: Text(
@@ -116,11 +125,15 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
                       }
                     }
                 ),
+
+
                 SizedBox(height:10.0),
+
                 Text(
                   error,
                   style: TextStyle(color: Colors.red, fontSize: 14.0),
                 ),
+
               ],
             ),
           ),

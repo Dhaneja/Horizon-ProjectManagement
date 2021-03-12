@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 
 class AdminEmployeeForm extends StatefulWidget {
 
+  //Constructor
   String empValue;
   AdminEmployeeForm({this.empValue});
 
@@ -21,13 +22,11 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
   String empValue;
   _AdminEmployeeFormState(this.empValue);
 
-/*  _EmployeeFormState(this.employeeid);
-  final DocumentSnapshot employeeid;*/
-
+  //FormKey Instance
   final _formKey = GlobalKey<FormState>();
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
 
-
+  //Local Variables
   String _eid;
   String _eEmail;
   String _ePassword;
@@ -37,9 +36,14 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    //StreamBuilder to access the stream to fetch values
     return StreamBuilder<Employee>(
+
+      //Get data from employeeDate stream in DatabaseService
       stream: DatabaseService(eid: empValue).employeeData,
       builder: (context, snapshot) {
+
         if(snapshot.hasData){
 
           Employee employee = snapshot.data;
@@ -48,38 +52,35 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+
                   Text(
                     'Update Employee Data',
                     style: TextStyle(fontSize: 18.0),
                   ),
+
+
                   SizedBox(height: 20.0),
+                  //Edit Employee Name
                   TextFormField(
                     initialValue: employee.eName,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _eName = val),
                   ),
+
+
                   SizedBox(height: 20.0),
+                  //Display Employee Email
                   TextFormField(
                     enabled: false,
                     readOnly: true,
-/*                    initialValue: employee.eEmail,*/
-                    decoration: textInputStyle.copyWith(hintText: employee.eEmail),
-/*                    validator: (val) => val.isEmpty ? 'Please enter a email' : null,*/
-/*                    onChanged: (val) => setState(() => _eEmail = val),*/
-                  ),
-/*            SizedBox(height: 20.0),
-                TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Employee Password'),
-                  validator: (val) => val.isEmpty ? 'Please enter a password' : null,
-                  onChanged: (val) => setState(() => _ePassword = val),
-                ),*/
+                    decoration: textInputStyle.copyWith(hintText: employee.eEmail),),
 
-                  //DropDownBox
+
                   SizedBox(height: 20.0),
-                  //dropdown
+
+                  //DropDoenBox to change Employee Type
                   DropdownButtonFormField(
-                    /*value: null,*/
                     value: _eType ?? employee.eType,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Type',labelText: 'Employee Type'),
                     items: employeeTypes.map((employeeType) {
@@ -91,7 +92,8 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
                     onChanged: (val) => setState(() => _eType = val),
                   ),
 
-                  //Update Button
+
+                  //Update Employee data using updateUserData in DatabaseService
                   SizedBox(height: 10.0),
 
                   RaisedButton(
@@ -114,6 +116,7 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
                       }
                   ),
 
+
                   //Reset Password Button
                   SizedBox(height: 10.0),
 
@@ -128,6 +131,7 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
                         print(employee.eEmail);
                       }
                   ),
+
 
                   //Delete Password Button
                   SizedBox(height: 10.0),
@@ -160,6 +164,7 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
         }else{
           return Loading();
         }
+
       }
     );
   }

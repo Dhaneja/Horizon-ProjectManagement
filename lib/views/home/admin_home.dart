@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/views/employee/employee_add_form.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
@@ -10,12 +10,11 @@ import '../employee/employee_list.dart';
 
 class AdminHome extends StatelessWidget {
 
-  final AuthService _authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
 
 
+    //Popup the modalBottomSheet for Employee Add Form
     void _showEmployeeAddPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -33,6 +32,8 @@ class AdminHome extends StatelessWidget {
       });
     }
 
+
+    //Popup the modalBottomSheet for Admin Data Edit Form
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -51,8 +52,10 @@ class AdminHome extends StatelessWidget {
     }
 
 
-
+    //Stream Provider to List the Employees using horizonUsers
     return StreamProvider<List<Employee>>.value(
+
+      //Get data from horizonUsers stream in DatabaseService
       value: DatabaseService().horizonUsers,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -61,30 +64,23 @@ class AdminHome extends StatelessWidget {
           backgroundColor: Colors.blue[400],
           elevation: 0.0,
           actions: <Widget>[
-/*            FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('logout'),
-              textColor: Colors.white,
-              onPressed: () async {
-                await _authService.signOut();
-                return SignIn();
-              },
-            ),*/
+
             IconButton(
               icon: Icon(Icons.person_add),
               onPressed: () {
+
+                //Display the Modal Bottom Sheet to add employee Data
                 _showEmployeeAddPanel();
-/*                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Register())
-                );*/
-              },
+
+                },
             ),
 
             IconButton(
                 icon: Icon(Icons.error),
-                /*color: Colors.black,*/
-                /*label: Text('Add'),*/
+                color: Colors.red[100],
                 onPressed: ()  {
+
+                  //Display On hold Projects
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => OnHoldProjectView())
@@ -93,11 +89,14 @@ class AdminHome extends StatelessWidget {
             ),
 
             IconButton(
+
                 icon: Icon(Icons.settings),
-                /*color: Colors.black,*/
-                /*label: Text('Add'),*/
+
                 onPressed: ()  {
+
+                  //Current Employee Details panel
                   _showCurrentEmployeePanel();
+
                 }
             ),
 

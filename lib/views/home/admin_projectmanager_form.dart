@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
-import 'package:horizon/views/employee/developer_tasks.dart';
 import 'package:horizon/views/project/admin_project_view.dart';
 
+// ignore: must_be_immutable
 class AdminProjectManagerForm extends StatefulWidget {
 
   String empValue;
@@ -22,9 +21,6 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
 
   String empValue;
   _AdminProjectManagerFormState(this.empValue);
-
-/*  _EmployeeFormState(this.employeeid);
-  final DocumentSnapshot employeeid;*/
 
   final _formKey = GlobalKey<FormState>();
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
@@ -41,7 +37,11 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    //StreamBuilder to access the stream to fetch values
     return StreamBuilder<Employee>(
+
+      //Get data from employeeDate stream in DatabaseService
         stream: DatabaseService(eid: empValue).employeeData,
         builder: (context, snapshot) {
           if(snapshot.hasData){
@@ -54,38 +54,38 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+
                   Text(
-                    'Update Employee Data',
+
+                    'Update Project Manager Data',
                     style: TextStyle(fontSize: 18.0),
+
                   ),
+
+
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     initialValue: employee.eName,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _eName = val),
                   ),
+
+
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     enabled: false,
                     readOnly: true,
-/*                    initialValue: employee.eEmail,*/
                     decoration: textInputStyle.copyWith(hintText: employee.eEmail),
-/*                    validator: (val) => val.isEmpty ? 'Please enter a email' : null,*/
-/*                    onChanged: (val) => setState(() => _eEmail = val),*/
                   ),
-/*            SizedBox(height: 20.0),
-                TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Employee Password'),
-                  validator: (val) => val.isEmpty ? 'Please enter a password' : null,
-                  onChanged: (val) => setState(() => _ePassword = val),
-                ),*/
 
-                  //DropDownBox
+
                   SizedBox(height: 20.0),
-                  //dropdown
+
                   DropdownButtonFormField(
-                    /*value: null,*/
+
                     value: _eType ?? employee.eType,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Type',labelText: 'Employee Name'),
                     items: employeeTypes.map((employeeType) {
@@ -97,7 +97,8 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
                     onChanged: (val) => setState(() => _eType = val),
                   ),
 
-                  //Update Button
+
+                  //Update Data using updateUserData method in DatabaseService
                   SizedBox(height: 10.0),
 
                   RaisedButton(
@@ -120,6 +121,7 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
                       }
                   ),
 
+                  //Prompt to Project list created by the selected Project Manager
                   RaisedButton(
                       color: Colors.green,
                       child: Text(
@@ -134,6 +136,7 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
                         );
                       }
                   ),
+
 
                   //Reset Password Button
                   SizedBox(height: 10.0),
@@ -181,6 +184,7 @@ class _AdminProjectManagerFormState extends State<AdminProjectManagerForm> {
           }else{
             return Loading();
           }
+
         }
     );
   }

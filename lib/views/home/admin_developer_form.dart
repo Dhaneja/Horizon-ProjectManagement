@@ -1,18 +1,16 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 import 'package:horizon/views/employee/developer_tasks.dart';
-import 'package:horizon/views/employee/employee_home.dart';
 
+// ignore: must_be_immutable
 class AdminDeveloperForm extends StatefulWidget {
 
+  //Constructor
   String empValue;
   AdminDeveloperForm({this.empValue});
 
@@ -20,18 +18,17 @@ class AdminDeveloperForm extends StatefulWidget {
   _AdminDeveloperFormState createState() => _AdminDeveloperFormState(empValue);
 }
 
+
 class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
 
   String empValue;
   _AdminDeveloperFormState(this.empValue);
 
-/*  _EmployeeFormState(this.employeeid);
-  final DocumentSnapshot employeeid;*/
-
+  //FormKey Instance
   final _formKey = GlobalKey<FormState>();
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
 
-
+  //Local Variables
   String _eid;
   String _eEmail;
   String _ePassword;
@@ -46,7 +43,10 @@ class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
 
 
 
+    //StreamBuilder to access the stream to fetch values
     return StreamBuilder<Employee>(
+
+      //Get data from employeeDate stream in DatabaseService
         stream: DatabaseService(eid: empValue).employeeData,
         builder: (context, snapshot) {
           if(snapshot.hasData){
@@ -59,38 +59,38 @@ class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+
                   Text(
-                    'Update Employee Data',
+
+                    'Update Developer Data',
                     style: TextStyle(fontSize: 18.0),
+
                   ),
+
+
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     initialValue: employee.eName,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _eName = val),
                   ),
+
+
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     enabled: false,
                     readOnly: true,
-/*                    initialValue: employee.eEmail,*/
                     decoration: textInputStyle.copyWith(hintText: employee.eEmail),
-/*                    validator: (val) => val.isEmpty ? 'Please enter a email' : null,*/
-/*                    onChanged: (val) => setState(() => _eEmail = val),*/
                   ),
-/*            SizedBox(height: 20.0),
-                TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Employee Password'),
-                  validator: (val) => val.isEmpty ? 'Please enter a password' : null,
-                  onChanged: (val) => setState(() => _ePassword = val),
-                ),*/
+
 
                   //DropDownBox
                   SizedBox(height: 20.0),
-                  //dropdown
+
                   DropdownButtonFormField(
-                    /*value: null,*/
                     value: _eType ?? employee.eType,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Type', labelText: 'Employee Type'),
                     items: employeeTypes.map((employeeType) {
@@ -102,7 +102,8 @@ class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
                     onChanged: (val) => setState(() => _eType = val),
                   ),
 
-                  //Update Button
+
+                  //Update Data using updateUserDate method in DatabaseService
                   SizedBox(height: 10.0),
 
                   RaisedButton(
@@ -125,6 +126,7 @@ class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
                       }
                   ),
 
+                  //Prompt to Task list assigned to the selected developer
                   RaisedButton(
                       color: Colors.green,
                       child: Text(
@@ -186,6 +188,7 @@ class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
           }else{
             return Loading();
           }
+
         }
     );
   }

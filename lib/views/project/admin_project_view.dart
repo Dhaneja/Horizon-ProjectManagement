@@ -13,7 +13,7 @@ class AdminProjectView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
+    //Popup the modalBottomSheet for Admin Data Edit Form
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -31,9 +31,10 @@ class AdminProjectView extends StatelessWidget {
       });
     }
 
-
+    //Stream Provider to List the Employees using adminProjectManagerProject
     return StreamProvider<List<Project>>.value(
 
+      //Get data from adminProjectManagerProject stream in DatabaseService
       value: DatabaseService(eid: empValue).adminProjectManagerProject,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -42,15 +43,19 @@ class AdminProjectView extends StatelessWidget {
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
+
               IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: ()  {
                     _showCurrentEmployeePanel();
                   }
               ),
+
             ]
         ),
+
         body: ProjectList(),
+
       ),
     );
   }

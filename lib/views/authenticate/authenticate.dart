@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:horizon/views/authenticate/register.dart';
 import 'package:horizon/views/authenticate/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
@@ -19,7 +18,7 @@ class _AuthenticateState extends State<Authenticate> {
     if(signInStatus) {
       return SignIn(toggleView: toggleView);
     }else{
-      return Register(toggleView: toggleView);
+/*      return Register(toggleView: toggleView);*/
     }
   }
 }

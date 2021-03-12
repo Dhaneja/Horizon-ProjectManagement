@@ -6,8 +6,6 @@ import 'package:horizon/views/home/admin_projectmanager_form.dart';
 
 class EmployeeTile extends StatelessWidget {
 
-
-
   final Employee employee;
   EmployeeTile({this.employee});
 
@@ -32,11 +30,11 @@ class EmployeeTile extends StatelessWidget {
           return AssetImage('assets/dev2.png');
 
         }
-
         return AssetImage('assets/pm.png');
       }
 
 
+      //Popup the modalBottomSheet for Employee Form Admin View
       void _showEmployeePanel() {
         showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
           return Container(
@@ -54,6 +52,7 @@ class EmployeeTile extends StatelessWidget {
         });
       }
 
+      //Popup the modalBottomSheet for Employee Form for Developer
       void _showDeveloperPanel() {
         showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
           return Container(
@@ -71,6 +70,7 @@ class EmployeeTile extends StatelessWidget {
         });
       }
 
+      //Popup the modalBottomSheet for Project Manager Form
       void _showProjectManagerPanel() {
         showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
           return Container(
@@ -91,24 +91,37 @@ class EmployeeTile extends StatelessWidget {
       return Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Card(
+
           margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
           child: ListTile(
+
             leading: CircleAvatar(
               radius: 25.0,
               backgroundColor: Colors.grey[100],
               backgroundImage: getImage(empType),
             ),
+
             title: Text(employee.eName),
             subtitle: Text(employee.eType),
+
             onTap: () {
+            //Get the employee id to a String variable to pass into the next screen
               empValue = employee.eid.toString();
+
+              //Select which Modal Bottom sheet to display according to user type
               if (empType == 'Developer') {
+
                 _showDeveloperPanel();
+
               }
               else if (empType == 'Project Manager') {
+
                 _showProjectManagerPanel();
+
               } else if (empType == 'System Admin') {
+
                 _showEmployeePanel();
+
               }
 
             },

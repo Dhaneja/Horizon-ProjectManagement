@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/task.dart';
-import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_task.dart';
-import 'package:horizon/views/authenticate/sign_in.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:horizon/views/task/task_employee_list.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeHome extends StatelessWidget {
 
-  final AuthService _authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
 
+    //Popup the modalBottomSheet for Employee Form
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -31,8 +28,10 @@ class EmployeeHome extends StatelessWidget {
       });
     }
 
-
+    //Stream Provider to List the Tasks using TaskHomeList
     return StreamProvider<List<Task>>.value(
+
+      //TaskDatabaseService used to access the stream employeeTask
       value: TaskDatabaseService().employeeTask,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -41,14 +40,8 @@ class EmployeeHome extends StatelessWidget {
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
-/*              FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text('Logout'),textColor: Colors.white,
-                  onPressed: () async {
-                    await _authService.signOut();
-                    return SignIn();
-                  }
-              ),*/
+
+              //Icon to display the Current Employee details panel
               IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: ()  {
@@ -57,7 +50,9 @@ class EmployeeHome extends StatelessWidget {
               ),
             ]
         ),
+
         body: TaskHomeList(),
+
       ),
     );
   }

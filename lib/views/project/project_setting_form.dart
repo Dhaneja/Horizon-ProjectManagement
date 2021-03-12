@@ -1,17 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:horizon/model/employee.dart';
 import 'package:horizon/model/project.dart';
 import 'package:horizon/services/database_project.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 import 'package:horizon/views/task/task_home.dart';
-import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ProjectForm extends StatefulWidget {
 
+  //Constructor
   String projectIdValue, projectNameValue;
   ProjectForm({this.projectIdValue, this.projectNameValue});
 
@@ -24,9 +21,11 @@ class _ProjectFormState extends State<ProjectForm> {
   String projectIdValue, projectNameValue;
   _ProjectFormState(this.projectIdValue, this.projectNameValue);
 
+  //FormKey Instance
   final _formKey = GlobalKey<FormState>();
   final List<String> projectStatus = ['Ongoing','Finished','Cancelled','On hold'];
 
+  //Local Variables
   String _pid;
   String _pName;
   String _pStartDate;
@@ -43,35 +42,43 @@ class _ProjectFormState extends State<ProjectForm> {
   Widget build(BuildContext context) {
 
 
+    //StreamBuilder to access the stream to fetch values
     return StreamBuilder<Project>(
+
+      //Get data from projectData stream in ProjectDatabaseService
       stream: ProjectDatabaseService(pid:projectIdValue).projectData,
       builder: (context, snapshot){
         if (snapshot.hasData){
 
           Project project = snapshot.data;
 
-
-
           return Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
+
                 Text(
+
                   'Project Details',
                   style: TextStyle(fontSize: 18.0),
+
                 ),
 
+
                 SizedBox(height: 20.0),
+
                 TextFormField(
 
                   initialValue: project.pName,
                   decoration: textInputStyle.copyWith(hintText: 'Project Name', labelText: 'Project Name'),
                   validator: (val) => val.isEmpty ? 'Please Enter Project Name' : null,
                   onChanged: (val) => setState(() => _pName = val),
+
                 ),
 
 
                 SizedBox(height: 20.0),
+
                 TextFormField(
                   initialValue: project.pClient,
                   decoration: textInputStyle.copyWith(hintText: 'Project Client', labelText: 'Project Client'),
@@ -81,10 +88,14 @@ class _ProjectFormState extends State<ProjectForm> {
 
 
                 SizedBox(height: 20.0),
+
                 Text('Start Date:  ${project.sDate}'),
 
+
                 SizedBox(height: 20.0),
+
                 Text('End Date:  ${project.eDate}'),
+
 
                 SizedBox(height: 20.0),
 
@@ -95,10 +106,10 @@ class _ProjectFormState extends State<ProjectForm> {
                   onChanged: (val) => setState(() => _pCost = val),
                 ),
 
+
                 SizedBox(height: 20.0),
-                //dropdown
+
                 DropdownButtonFormField(
-/*                  value: null,*/
                   value: _pStatus ?? project.pStatus,
                   decoration: textInputStyle.copyWith(hintText: 'Project Status',labelText: 'Project Status'),
                   items: projectStatus.map((proStatus) {
@@ -110,12 +121,15 @@ class _ProjectFormState extends State<ProjectForm> {
                   onChanged: (val) => setState(() => _pStatus = val),
                 ),
 
+
                 SizedBox(height: 20.0,),
+
                 TextFormField(
                   initialValue: project.pHoldReason,
                   decoration: textInputStyle.copyWith(hintText: 'If Project OnHold, Reason', labelText: 'On hold Reason'),
                   onChanged: (val) => setState(() => _pHoldReason = val),
                 ),
+
 
                 SizedBox(height: 20.0,),
 
@@ -123,6 +137,7 @@ class _ProjectFormState extends State<ProjectForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
 
+                    //Update data using updateProjectData method in ProjectDatabaseService
                     SizedBox(height: 20.0),
 
                     RaisedButton(
@@ -132,11 +147,7 @@ class _ProjectFormState extends State<ProjectForm> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-/*                     docId = FirebaseFirestore.instance.collection('projects').doc(projectValue).get().toString();
 
-                     print(docId);*/
-
-                          try {
                             if (_formKey.currentState.validate()) {
                               await ProjectDatabaseService(pid: projectIdValue)
                                   .updateProjectData(
@@ -149,16 +160,18 @@ class _ProjectFormState extends State<ProjectForm> {
                                   _pClient ?? project.pClient,
                                   _pStatus ?? project.pStatus,
                                   _empId ?? project.empId,
-                                   _pHoldReason ?? project.pHoldReason
+                                  _pHoldReason ?? project.pHoldReason
                               );
                               Navigator.pop(context);
                             }
-                          }catch(error){
-                            print(error);
-                          }
+
                         }
+
                     ),
+
+                    //Prompt to Task list related to the selected project
                     SizedBox(height: 20.0, width: 40.0,),
+
                     RaisedButton(
                         color: Colors.orange[400],
                         child: Text(
@@ -183,6 +196,7 @@ class _ProjectFormState extends State<ProjectForm> {
         }else{
           return Loading();
         }
+
       }
 
     );

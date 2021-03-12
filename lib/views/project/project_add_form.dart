@@ -18,16 +18,19 @@ class ProjectAddForm extends StatefulWidget {
 class _ProjectAddState extends State<ProjectAddForm> {
 
 
+  //Required Date Format
   DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
+  //Current Date
   DateTime date = DateTime.now();
+
+  //Other variables required for date selection
   DateTime startDate;
   DateTime endDate;
   String _displayStartDate;
   String _displayEndDate;
   String passStartDate;
   String passEndDate;
-
 
 
   bool loading = false;
@@ -54,7 +57,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
   @override
   Widget build(BuildContext context) {
 
-    //Pass the current time in required Format
+    //Pass the current date in required Format
     _displayStartDate = dateFormat.format(date);
     _displayEndDate = dateFormat.format(date);
 
@@ -84,7 +87,6 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 SizedBox(height: 20.0,),
 
-                //Text Field to Enter Project Name
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Project Name',labelText: 'Project Name'),
                   onChanged: (projectNameInput){
@@ -169,7 +171,6 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 SizedBox(height: 20.0,),
 
-                //Text Field to Enter Project Cost
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Project Cost',labelText: 'Project Cost'),
                   onChanged: (projectCostInput){
@@ -188,7 +189,6 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 SizedBox(height: 20.0,),
 
-                //Text Field to Enter Project Client
                 TextFormField(
                   decoration: textInputStyle.copyWith(hintText: 'Project Client', labelText: 'Project Client'),
                   onChanged: (projectClientInput){
@@ -240,6 +240,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
       ),
     );
   }
+
 
   //Method to select Date using DateTimePicker
   Future<DateTime> _selectDateTime(BuildContext context, DateTime datePicked) async{

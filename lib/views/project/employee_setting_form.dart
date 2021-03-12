@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
-import 'package:horizon/services/authservice.dart';
+import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
@@ -10,8 +10,6 @@ import 'package:horizon/views/authenticate/sign_in.dart';
 
 
 class EmployeeForm extends StatefulWidget {
-
-
 
   @override
   _EmployeeFormState createState() => _EmployeeFormState();
@@ -21,24 +19,27 @@ class _EmployeeFormState extends State<EmployeeForm> {
 
   final AuthService _authService = AuthService();
 
-
   final _formKey = GlobalKey<FormState>();
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
 
-
+  //Local Variables
   String _eid;
   String _eEmail;
   String _ePassword;
   String _eName;
   String _eType;
 
+  //Current employee uid and email using FirebaseAuth
   String currentEmployeeId = FirebaseAuth.instance.currentUser.uid;
   String currentEmployeeEmail = FirebaseAuth.instance.currentUser.email;
 
 
   @override
   Widget build(BuildContext context) {
+    //Stream Provider to List the Employees Details using employeeData
     return StreamBuilder<Employee>(
+
+      //Get data from employeeData stream in DatabaseService
         stream: DatabaseService(eid: currentEmployeeId).employeeData,
         builder: (context, snapshot) {
           if(snapshot.hasData){
@@ -49,56 +50,43 @@ class _EmployeeFormState extends State<EmployeeForm> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+
                   Text(
                     'Employee Profile',
                     style: TextStyle(fontSize: 18.0),
                   ),
+
+
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     initialValue: employee.eName,
                     decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _eName = val),
                   ),
+
+
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     enabled: false,
                     readOnly: true,
-/*                    initialValue: employee.eEmail,*/
                     decoration: textInputStyle.copyWith(hintText: employee.eEmail),
-/*                    validator: (val) => val.isEmpty ? 'Please enter a email' : null,*/
-/*                    onChanged: (val) => setState(() => _eEmail = val),*/
                   ),
-/*            SizedBox(height: 20.0),
-                TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Employee Password'),
-                  validator: (val) => val.isEmpty ? 'Please enter a password' : null,
-                  onChanged: (val) => setState(() => _ePassword = val),
-                ),*/
+
 
                   //DropDownBox
                   SizedBox(height: 20.0),
+
                   TextFormField(
                     enabled: false,
                     readOnly: true,
                     decoration: textInputStyle.copyWith(hintText: employee.eType),
                   ),
-                  //dropdown
-/*                  DropdownButtonFormField(
-                    *//*value: null,*//*
-                    value: _eType ?? employee.eType,
-                    decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
-                    items: employeeTypes.map((employeeType) {
-                      return DropdownMenuItem(
-                        value: employeeType,
-                        child: Text('$employeeType'),
-                      );
-                    }).toList(),
-                    onChanged: (val) => setState(() => _eType = val),
-                  ),*/
 
 
-                  //Update Button
+                  //Update Data using updateUserData method in DatabaseService
                   SizedBox(height: 10.0),
 
                   RaisedButton(
@@ -121,6 +109,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                       }
                   ),
 
+
                   //Reset Password Button
                   SizedBox(height: 10.0),
 
@@ -135,7 +124,10 @@ class _EmployeeFormState extends State<EmployeeForm> {
                         print(employee.eEmail);
                       }
                   ),
+
+
                   SizedBox(height: 10.0),
+
                   RaisedButton(
                       color: Colors.red,
                       child: Text(
@@ -155,6 +147,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
           }else{
             return Loading();
           }
+
         }
     );
   }

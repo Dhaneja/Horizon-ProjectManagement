@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:horizon/model/project.dart';
-import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database_project.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:horizon/views/project/project_add_form.dart';
@@ -12,6 +11,7 @@ class OnHoldProjectView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    //Popup the modalBottomSheet for Project Add Form
     void _showProjectAddPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -29,6 +29,7 @@ class OnHoldProjectView extends StatelessWidget {
       });
     }
 
+    //Popup the modalBottomSheet for Current Employee Data Edit Form
     void _showCurrentEmployeePanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -46,9 +47,9 @@ class OnHoldProjectView extends StatelessWidget {
       });
     }
 
-
+    //Stream Provider to List the Projects using holdProjects
     return StreamProvider<List<Project>>.value(
-
+      //Get data from holdProjects stream in ProjectDatabaseService
       value: ProjectDatabaseService().holdProjects,
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -57,40 +58,31 @@ class OnHoldProjectView extends StatelessWidget {
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
-/*          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Logout'),
-            onPressed: () async {
-              await _authService.signOut();
-              return SignIn();
-          }
-        ),*/
+
               IconButton(
                   icon: Icon(Icons.add),
-                  /*color: Colors.black,*/
-                  /*label: Text('Add'),*/
                   onPressed: () {
-/*                Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProjectAdd()));*/
+
+                    //Display the Modal Bottom Sheet to Add Project Data
                     _showProjectAddPanel();
+
                   }
               ),
+
               IconButton(
                   icon: Icon(Icons.settings),
-                  /*color: Colors.black,*/
-                  /*label: Text('Add'),*/
                   onPressed: ()  {
+
+                    //Current Employee Details panel
                     _showCurrentEmployeePanel();
+
                   }
               ),
-/*            FlatButton.icon(
-              icon: Icon(Icons.create),
-              //label: Text('update'),
-              onPressed: () => _projectDataPanel(),
-            )*/
             ]
         ),
+
         body: ProjectList(),
+
       ),
     );
   }

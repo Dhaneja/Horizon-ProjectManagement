@@ -12,6 +12,7 @@ class TaskEmployeeTile extends StatelessWidget {
     String taskIdValue;
     String taskStat = taskHomeList.taskStatus;
 
+    //Select Color according to task Status
     Color getColor(taskStat){
       if (taskStat == 'Ongoing'){
         /*projectColor = 'Colors.yellow[400]';*/
@@ -29,7 +30,7 @@ class TaskEmployeeTile extends StatelessWidget {
       return Colors.grey[200];
     }
 
-
+    //Popup the modalBottomSheet for Employee Task Form
     void _showEmployeeTaskPanel() {
       showModalBottomSheet<dynamic>(isScrollControlled: true, backgroundColor: Colors.transparent, context: context, builder: (context){
         return Container(
@@ -53,20 +54,25 @@ class TaskEmployeeTile extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
         child: ListTile(
+
           leading: CircleAvatar(
             radius: 25.0,
             backgroundColor: getColor(taskStat),
           ),
+
           title: Text(taskHomeList.taskName),
           subtitle: Text('For  ${taskHomeList.taskProjectName} '),
+
           onTap: () {
             taskIdValue = taskHomeList.taskId.toString();
-            print(taskIdValue);
+
+            //Task Details Panel
             _showEmployeeTaskPanel();
+
           },
+
         ),
       ),
-
     );
   }
 }
