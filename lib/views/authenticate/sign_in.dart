@@ -62,7 +62,7 @@ class _SignInState extends State<SignIn> {
 
               SizedBox(height: 40.0,),
               TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Email Address'),
+                decoration: textInputStyle.copyWith(hintText: 'Email',labelText: 'Email'),
                 validator: (emailValue) => emailValue.isEmpty ? 'Email cannot be empty' : null,
                 onChanged: (emailValue){
                   setState(() => email = emailValue);
@@ -71,7 +71,7 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Password'),
+                decoration: textInputStyle.copyWith(hintText: 'Password',labelText: 'Password'),
                 obscureText: true,
                 validator: (emailValue) => emailValue.length < 6 ? 'Weak Password, Please enter a strong password' : null,
                 onChanged: (passwordValue){

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/database.dart';
-import 'package:horizon/services/project_service.dart';
+import 'package:horizon/services/database_project.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
 import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
@@ -33,8 +33,6 @@ class _ProjectAddState extends State<ProjectAddForm> {
   bool loading = false;
 
 
-  final ProjectService _projectService = ProjectService();
-
   final _formKey = GlobalKey<FormState>();
 
   //Text field initialization
@@ -45,6 +43,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
   String projectClient = '';
   String projectStatus = 'On hold';
   String employeeId = FirebaseAuth.instance.currentUser.uid;
+  String projectHoldReason = '';
 
   String error = '';
 
@@ -87,7 +86,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 //Text Field to Enter Project Name
                 TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Project Name'),
+                  decoration: textInputStyle.copyWith(hintText: 'Project Name',labelText: 'Project Name'),
                   onChanged: (projectNameInput){
                     setState(() {
                       projectName = projectNameInput;
@@ -126,7 +125,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                     //Text Field
                     child: new TextFormField(
-                      decoration: textInputStyle.copyWith(hintText: passStartDate  ?? 'Start Date: $_displayStartDate'   , suffixIcon: Icon(Icons.calendar_today) ),
+                      decoration: textInputStyle.copyWith(hintText: passStartDate  ?? 'Start Date: $_displayStartDate'   ,suffixIcon: Icon(Icons.calendar_today) ),
 
                     ),
                   ),
@@ -160,7 +159,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                   child: IgnorePointer(
                     child: new TextFormField(
-                      decoration: textInputStyle.copyWith(hintText: passEndDate  ?? 'Start Date: $_displayEndDate'   , suffixIcon: Icon(Icons.calendar_today) ),
+                      decoration: textInputStyle.copyWith(hintText: passEndDate  ?? 'End Date: $_displayEndDate'   , suffixIcon: Icon(Icons.calendar_today) ),
 
                     ),
                   ),
@@ -172,7 +171,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 //Text Field to Enter Project Cost
                 TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Project Cost'),
+                  decoration: textInputStyle.copyWith(hintText: 'Project Cost',labelText: 'Project Cost'),
                   onChanged: (projectCostInput){
                     setState(() {
                       projectCost = projectCostInput;
@@ -191,7 +190,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
 
                 //Text Field to Enter Project Client
                 TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Project Client'),
+                  decoration: textInputStyle.copyWith(hintText: 'Project Client', labelText: 'Project Client'),
                   onChanged: (projectClientInput){
                     setState(() {
                       projectClient = projectClientInput;
@@ -221,7 +220,7 @@ class _ProjectAddState extends State<ProjectAddForm> {
                         setState(() {
                           loading = true;
                         });
-                        dynamic result = await _projectService.createProject(projectName, finalStartDate, finalEndDate, projectCost, projectManager, projectClient, projectStatus, employeeId);
+                        dynamic result = await ProjectDatabaseService().addProjectData(projectName, finalStartDate, finalEndDate, projectCost, projectManager, projectClient, projectStatus, employeeId, projectHoldReason);
                         if (result == null){
                           setState(() {
                             loading = false;

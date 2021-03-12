@@ -41,10 +41,10 @@ class TaskHome extends StatelessWidget {
     return StreamProvider<List<Task>>.value(
         value: ProjectDatabaseService(pid: projectIdValue).horizonTasks,
       child: Scaffold(
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
             title: Text('Tasks'),
-            backgroundColor: Colors.grey[200],
+            backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[
               IconButton(
@@ -53,14 +53,6 @@ class TaskHome extends StatelessWidget {
                   /*label: Text('Add'),*/
                   onPressed: () {
                     _showTaskAddPanel();
-                  }
-              ),
-              IconButton(
-                  icon: Icon(Icons.settings),
-                  /*color: Colors.black,*/
-                  /*label: Text('Add'),*/
-                  onPressed: ()  {
-
                   }
               ),
             ]

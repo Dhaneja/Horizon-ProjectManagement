@@ -3,8 +3,6 @@ import 'package:horizon/services/authservice.dart';
 import 'package:horizon/views/employee/employee_home.dart';
 import 'package:horizon/views/home/admin_home.dart';
 import 'file:///F:/Esoft/Android/horizon/lib/views/home/project_home.dart';
-import 'package:horizon/views/task/task_home.dart';
-import '../project/project_add.dart';
 
 class Home extends StatelessWidget {
 

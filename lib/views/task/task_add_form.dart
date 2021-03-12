@@ -53,7 +53,7 @@ class _TaskAddFormState extends State<TaskAddForm> {
 
           SizedBox(height: 20.0),
           TextFormField(
-            decoration: textInputStyle.copyWith(hintText: 'Task Name'),
+            decoration: textInputStyle.copyWith(hintText: 'Task Name',labelText: 'Task Name'),
             validator: (val) => val.isEmpty ? 'Please Enter Task Name' : null,
             onChanged: (val) => setState(() => _tName = val),
           ),
@@ -67,7 +67,6 @@ class _TaskAddFormState extends State<TaskAddForm> {
                 List<DropdownMenuItem> employeeItems=[];
                 for(int i=0;i<snapshot.data.docs.length;i++){
                   DocumentSnapshot snap = snapshot.data.docs[i];
-                  //DocumentSnapshot snap2 = snapshot.data.docs[i];
                   employeeItems.add(
                     DropdownMenuItem(
                         child: Text(

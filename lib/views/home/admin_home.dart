@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
-import 'package:horizon/views/authenticate/register.dart';
-import 'package:horizon/views/authenticate/sign_in.dart';
 import 'package:horizon/views/employee/employee_add_form.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:provider/provider.dart';
@@ -81,6 +78,16 @@ class AdminHome extends StatelessWidget {
                 );*/
               },
             ),
+
+            IconButton(
+                icon: Icon(Icons.error),
+                /*color: Colors.black,*/
+                /*label: Text('Add'),*/
+                onPressed: ()  {
+
+                }
+            ),
+
             IconButton(
                 icon: Icon(Icons.settings),
                 /*color: Colors.black,*/
@@ -89,6 +96,7 @@ class AdminHome extends StatelessWidget {
                   _showCurrentEmployeePanel();
                 }
             ),
+
           ],
         ),
         body: EmployeeList(),

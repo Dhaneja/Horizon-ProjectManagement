@@ -44,7 +44,7 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
                 SizedBox(height: 20.0,),
 
                 TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Employee Name'),
+                  decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                   validator: (nameValue) => nameValue.isEmpty ? 'Name cannot be empty' : null,
                   onChanged: (nameValue){
                     setState(() => name = nameValue);
@@ -54,34 +54,29 @@ class _EmployeeAddState extends State<EmployeeAddForm> {
 
                 SizedBox(height: 20.0,),
                 TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Email Address'),
+                  decoration: textInputStyle.copyWith(hintText: 'Email Address',labelText: 'Email Address'),
                   validator: (emailValue) => emailValue.isEmpty ? 'Email cannot be empty' : null,
                   onChanged: (emailValue){
                     setState(() => email = emailValue);
 
                   },
                 ),
+
+
                 SizedBox(height: 20.0),
                 TextFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Password'),
+                  decoration: textInputStyle.copyWith(hintText: 'Password', labelText: 'Password'),
                   obscureText: true,
                   validator: (passwordValue) => passwordValue.length < 6 ? 'Weak Password, Please enter a strong password' : null,
                   onChanged: (passwordValue){
                     setState(() => password = passwordValue);
                   },
                 ),
+
+
                 SizedBox(height: 20.0,),
-/*              TextFormField(
-                decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
-                validator: (typeValue) => typeValue.isEmpty ? 'Employee Type cannot be empty' : null,
-                onChanged: (typeValue){
-                  setState(() => type = typeValue);
-
-                },
-              ),*/
-
                 DropdownButtonFormField(
-                  decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
+                  decoration: textInputStyle.copyWith(hintText: 'Employee Type', labelText: 'Employee Type'),
                   validator: (typeValue) => typeValue.isEmpty ? 'Employee Type cannot be empty' : null,
                   items: employeeTypes.map((employeeType) {
                     return DropdownMenuItem(

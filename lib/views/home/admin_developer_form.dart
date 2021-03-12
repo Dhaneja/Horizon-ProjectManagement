@@ -1,26 +1,32 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:horizon/model/employee.dart';
 import 'package:horizon/services/authservice.dart';
 import 'package:horizon/services/database.dart';
 import 'package:horizon/shared/constants.dart';
 import 'package:horizon/shared/loading.dart';
-import 'package:horizon/views/authenticate/sign_in.dart';
+import 'package:horizon/views/employee/developer_tasks.dart';
+import 'package:horizon/views/employee/employee_home.dart';
 
+class AdminDeveloperForm extends StatefulWidget {
 
-class EmployeeForm extends StatefulWidget {
-
-
+  String empValue;
+  AdminDeveloperForm({this.empValue});
 
   @override
-  _EmployeeFormState createState() => _EmployeeFormState();
+  _AdminDeveloperFormState createState() => _AdminDeveloperFormState(empValue);
 }
 
-class _EmployeeFormState extends State<EmployeeForm> {
+class _AdminDeveloperFormState extends State<AdminDeveloperForm> {
 
-  final AuthService _authService = AuthService();
+  String empValue;
+  _AdminDeveloperFormState(this.empValue);
 
+/*  _EmployeeFormState(this.employeeid);
+  final DocumentSnapshot employeeid;*/
 
   final _formKey = GlobalKey<FormState>();
   final List<String> employeeTypes = ['Project Manager', 'Developer', 'System Admin'];
@@ -32,25 +38,29 @@ class _EmployeeFormState extends State<EmployeeForm> {
   String _eName;
   String _eType;
 
-  String currentEmployeeId = FirebaseAuth.instance.currentUser.uid;
-  String currentEmployeeEmail = FirebaseAuth.instance.currentUser.email;
+  String empName;
 
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return StreamBuilder<Employee>(
-        stream: DatabaseService(eid: currentEmployeeId).employeeData,
+        stream: DatabaseService(eid: empValue).employeeData,
         builder: (context, snapshot) {
           if(snapshot.hasData){
 
             Employee employee = snapshot.data;
+
+            empName = employee.eName ;
 
             return Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Employee Profile',
+                    'Update Employee Data',
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 20.0),
@@ -78,16 +88,11 @@ class _EmployeeFormState extends State<EmployeeForm> {
 
                   //DropDownBox
                   SizedBox(height: 20.0),
-                  TextFormField(
-                    enabled: false,
-                    readOnly: true,
-                    decoration: textInputStyle.copyWith(hintText: employee.eType),
-                  ),
                   //dropdown
-/*                  DropdownButtonFormField(
-                    *//*value: null,*//*
+                  DropdownButtonFormField(
+                    /*value: null,*/
                     value: _eType ?? employee.eType,
-                    decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
+                    decoration: textInputStyle.copyWith(hintText: 'Employee Type', labelText: 'Employee Type'),
                     items: employeeTypes.map((employeeType) {
                       return DropdownMenuItem(
                         value: employeeType,
@@ -95,8 +100,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                       );
                     }).toList(),
                     onChanged: (val) => setState(() => _eType = val),
-                  ),*/
-
+                  ),
 
                   //Update Button
                   SizedBox(height: 10.0),
@@ -109,8 +113,8 @@ class _EmployeeFormState extends State<EmployeeForm> {
                       ),
                       onPressed: () async {
                         if(_formKey.currentState.validate()){
-                          await DatabaseService(eid: currentEmployeeId ).updateUserData(
-                              _eid ?? currentEmployeeId,
+                          await DatabaseService(eid: empValue).updateUserData(
+                              _eid ?? empValue,
                               _eName ?? employee.eName,
                               _eEmail ?? employee.eEmail,
                               _ePassword ?? employee.ePassword,
@@ -119,6 +123,21 @@ class _EmployeeFormState extends State<EmployeeForm> {
                           Navigator.pop(context);
                         }
                       }
+                  ),
+
+                  RaisedButton(
+                      color: Colors.green,
+                      child: Text(
+                        'Tasks',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        print(empName);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DeveloperTask(empValue, empName))
+                        );
+                        }
                   ),
 
                   //Reset Password Button
@@ -131,23 +150,35 @@ class _EmployeeFormState extends State<EmployeeForm> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        await AuthService().passwordReset(currentEmployeeEmail);
+                        await AuthService().passwordReset(employee.eEmail);
                         print(employee.eEmail);
                       }
                   ),
+
+                  //Delete Password Button
                   SizedBox(height: 10.0),
+
                   RaisedButton(
                       color: Colors.red,
                       child: Text(
-                        'Log Out',
+                        'Delete Employee Account',
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        await _authService.signOut();
-                        Navigator.pop(context);
-                        return SignIn();
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .where('employeeId',isEqualTo: employee.eid)
+                            .get().then((value) {
+                          value.docs.forEach((element) {
+                            FirebaseFirestore.instance.collection('users').doc(employee.eid).delete().then((value) {
+                              print('Success!');
+                              Navigator.pop(context);
+                            });
+                          });
+                        });
                       }
                   ),
+
                 ],
               ),
             );

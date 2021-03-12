@@ -9,7 +9,8 @@ class Project {
   final String pClient;
   final String pStatus;
   final String empId;
+  final String pHoldReason;
 
-  Project({ this.pid,this.pName, this.sDate, this.eDate, this.pCost, this.pManager, this.pClient, this.pStatus, this.empId});
+  Project({ this.pid,this.pName, this.sDate, this.eDate, this.pCost, this.pManager, this.pClient, this.pStatus, this.empId, this.pHoldReason});
 
 }

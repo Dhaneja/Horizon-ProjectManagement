@@ -61,7 +61,7 @@ class _EmployeeTaskFormState extends State<EmployeeTaskForm> {
                   DropdownButtonFormField(
 /*                  value: null,*/
                     value: _tStatus ?? task.taskStatus,
-                    decoration: textInputStyle.copyWith(hintText: 'Project Status'),
+                    decoration: textInputStyle.copyWith(hintText: 'Project Status',labelText: 'Project Status'),
                     items: taskStatus.map((tStatus) {
                       return DropdownMenuItem(
                         value: tStatus,

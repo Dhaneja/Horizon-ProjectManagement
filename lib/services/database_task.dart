@@ -96,6 +96,9 @@ class TaskDatabaseService{
     return taskCollection.where('taskEmployeeId', isEqualTo: FirebaseAuth.instance.currentUser.uid).snapshots()
         .map(_taskListFromSnapshot);
   }
+
+
+
   
   //Stream to update task
   Stream<Task> get taskData {

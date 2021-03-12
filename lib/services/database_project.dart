@@ -18,7 +18,7 @@ class ProjectDatabaseService{
   final CollectionReference taskCollection = FirebaseFirestore.instance.collection('tasks');
 
 
-  Future addProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
+  Future addProjectData(String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId, String projectHoldReason) async {
     return await projectCollection.add({
       'projectId' : projectCollection.doc().id,
       'projectName': projectName,
@@ -29,13 +29,14 @@ class ProjectDatabaseService{
       'projectClient': projectClient,
       'projectStatus': projectStatus,
       'employeeId': employeeId,
+      'projectHoldReason': projectHoldReason,
     });
     
   }
 
 
 
-  Future updateProjectData( String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId) async {
+  Future updateProjectData( String projectId, String projectName, String startDate, String endDate, String projectCost, String projectManager, String projectClient, String projectStatus, String employeeId, String projectHoldReason) async {
 
     try {
       return await projectCollection.where('projectId', isEqualTo: pid).get().then((value) => value.docs.forEach((element) { element.reference.update(
@@ -49,6 +50,7 @@ class ProjectDatabaseService{
             'projectClient': projectClient,
             'projectStatus': projectStatus,
             'employeeId': employeeId,
+            'projectHoldReason': projectHoldReason,
           });
       })
       );
@@ -71,7 +73,8 @@ class ProjectDatabaseService{
           pManager: doc.data()['projectManager'] ?? '',
           pClient: doc.data()['projectClient'] ?? '',
           pStatus: doc.data()['projectStatus'] ?? '',
-          empId:  doc.data()['employeeId'] ?? ''
+          empId:  doc.data()['employeeId'] ?? '',
+          pHoldReason: doc.data()['projectHoldReason'] ?? ''
       );
     }).toList();
   }
@@ -106,9 +109,8 @@ class ProjectDatabaseService{
 
 
   Project _projectDataFromSnapshot(QuerySnapshot snapshot) {
-/*    return snapshot.docs.forEach((doc) {*/
-      return Project(
 
+      return Project(
 
           pid: snapshot.docs[0].data()['projectId'],
           pName: snapshot.docs[0].data()['projectName'],
@@ -118,11 +120,11 @@ class ProjectDatabaseService{
           pManager: snapshot.docs[0].data()['projectManager'],
           pClient: snapshot.docs[0].data()['projectClient'],
           pStatus: snapshot.docs[0].data()['projectStatus'],
-          empId: snapshot.docs[0].data()['employeeId']
-          /*empId: (doc['employeeId'])*/
+          empId: snapshot.docs[0].data()['employeeId'],
+          pHoldReason: snapshot.docs[0].data()['projectHoldReason']
+
       );
     }
-  /*}*/
 
 
 

@@ -55,7 +55,7 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
                   SizedBox(height: 20.0),
                   TextFormField(
                     initialValue: employee.eName,
-                    decoration: textInputStyle.copyWith(hintText: 'Employee Name'),
+                    decoration: textInputStyle.copyWith(hintText: 'Employee Name',labelText: 'Employee Name'),
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _eName = val),
                   ),
@@ -81,7 +81,7 @@ class _AdminEmployeeFormState extends State<AdminEmployeeForm> {
                   DropdownButtonFormField(
                     /*value: null,*/
                     value: _eType ?? employee.eType,
-                    decoration: textInputStyle.copyWith(hintText: 'Employee Type'),
+                    decoration: textInputStyle.copyWith(hintText: 'Employee Type',labelText: 'Employee Type'),
                     items: employeeTypes.map((employeeType) {
                       return DropdownMenuItem(
                         value: employeeType,

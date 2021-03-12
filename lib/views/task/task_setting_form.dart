@@ -54,7 +54,7 @@ class _TaskFormState extends State<TaskForm> {
                   SizedBox(height: 20.0),
                   TextFormField(
                     initialValue: task.taskName,
-                    decoration: textInputStyle.copyWith(hintText: task.taskName),
+                    decoration: textInputStyle.copyWith(hintText: task.taskName, labelText: 'Task Name'),
                     validator: (val) => val.isEmpty ? 'Please Enter Task Name' : null,
                     onChanged: (val) => setState(() => _tName = val),
                   ),
@@ -62,7 +62,7 @@ class _TaskFormState extends State<TaskForm> {
                   TextFormField(
                     enabled: false,
                     readOnly: true,
-                    decoration: textInputStyle.copyWith(hintText: task.taskStatus),
+                    decoration: textInputStyle.copyWith(hintText: task.taskStatus, labelText: 'Task Status'),
                   ),
 
                   SizedBox(height: 20.0,),
