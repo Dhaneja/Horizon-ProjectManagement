@@ -115,10 +115,7 @@ class DatabaseService {
         .map(_projectPMListFromSnapshot);
   }
 
-  Stream<List<Project>> get holdProjects {
-    return projectCollection.where('projectStatus', isEqualTo: 'On hold').snapshots()
-        .map(_projectPMListFromSnapshot);
-  }
+
 
 
 

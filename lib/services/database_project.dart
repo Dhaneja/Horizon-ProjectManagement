@@ -150,25 +150,21 @@ class ProjectDatabaseService{
         .map(_projectListFromSnapshot);
   }
 
-
-
-
   Stream<List<Task>> get horizonTasks {
     return taskCollection.where('taskProjectId', isEqualTo: pid).snapshots()
         .map(_taskListFromSnapshot);
   }
-
-
-
 
   //get project doc stream
    Stream<Project> get projectData {
     return  projectCollection.where('projectId', isEqualTo: pid).snapshots()
         .map((_projectDataFromSnapshot));
   }
-/*  getProjects() async{
-    return await FirebaseFirestore.instance.collection('projects').snapshots();
-  }*/
+
+  Stream<List<Project>> get holdProjects {
+    return projectCollection.where('projectStatus', isEqualTo: 'On hold').snapshots()
+        .map(_projectListFromSnapshot);
+  }
 
 
 }
