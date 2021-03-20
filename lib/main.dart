@@ -10,12 +10,12 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(HorizonApp());
 
 }
 
 // ignore: must_be_immutable
-class MyApp extends StatelessWidget {
+class HorizonApp extends StatelessWidget {
   // This widget is the root of your application.
   String emp;
   @override
