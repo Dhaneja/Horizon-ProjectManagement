@@ -54,7 +54,7 @@ class OnHoldProjectView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-            title: Text('Projects'),
+            title: Text('On hold Projects'),
             backgroundColor: Colors.blue[400],
             elevation: 0.0,
             actions: <Widget>[

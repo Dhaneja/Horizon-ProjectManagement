@@ -78,7 +78,7 @@ class _TaskFormState extends State<TaskForm> {
                   TextFormField(
                     enabled: false,
                     readOnly: true,
-                    decoration: textInputStyle.copyWith(hintText: task.taskStatus, labelText: 'Task Status'),
+                    decoration: textInputStyle.copyWith(hintText: task.taskStatus),
                   ),
 
 

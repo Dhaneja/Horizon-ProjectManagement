@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/model/project.dart';
-import 'package:horizon/services/auth_service.dart';
 import 'package:horizon/services/database_project.dart';
-import 'package:horizon/views/authenticate/sign_in.dart';
 import 'package:horizon/views/project/employee_setting_form.dart';
 import 'package:horizon/views/project/project_add_form.dart';
 import 'package:horizon/views/project/project_list.dart';

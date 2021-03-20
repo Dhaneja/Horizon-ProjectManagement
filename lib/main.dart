@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:horizon/services/auth_service.dart';
-import 'file:///F:/Esoft/Android/horizon/lib/views/wrappers/wrapper.dart';
+import 'package:horizon/views/wrappers/wrapper.dart';
 import 'package:provider/provider.dart';
 
 import 'model/employee.dart';
